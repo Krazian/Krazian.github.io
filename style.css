@@ -1,0 +1,63 @@
+body{
+	background-image:url("http://www.threadsofgreenfabrics.com/shop/images/CR527.jpg");
+	background-size: cover;
+}
+h1{
+	background-image:url("http://www.muratkaya.com.tr/wp-content/uploads/2011/06/blackjackBanner.jpg");
+	width:678px;
+	height:160px;
+	margin: auto;
+	border-radius:5px;
+}
+#dealer{
+margin-top:2em;
+font-family: 'Raleway', sans-serif;
+font-size:45px;
+color:#F00006;
+}
+#dealer-card{
+	margin-top: 1em;
+	width: 150px;
+	height:225px;
+	border-radius: 15px;
+	border-style: solid;
+	border-color: black;
+	border-width: 1px;
+	background-color: white;
+	display: inline-block;
+}
+#player{
+margin-top:2em;
+font-family: 'Raleway', sans-serif;
+font-size:45px;
+color:#FFF4F3;
+}
+#player-card{
+	margin-top: 1em;
+	width: 150px;
+	height:225px;
+	border-radius: 15px;
+	border-style: solid;
+	border-color: black;
+	border-width: 1px;
+	background-color: white;
+	display: inline-block;
+}
+#options {
+ list-style-type: none;
+ }
+button{
+	font-family: 'Raleway', sans-serif;
+	font-size: 30px;
+	font-style: oblique;
+	height: 50px;
+	width: 120px;
+}
+article{
+	float: right;
+	margin-top: 5em;
+	margin-right:3em;
+	height: 350px;
+	width: 350px;
+	background-color: rgba(255,255,255,.7)
+}
