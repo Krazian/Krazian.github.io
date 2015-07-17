@@ -54,6 +54,10 @@ text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 	display: inline-block;
 	position:relative;
 }
+.hidden{
+	background-image: url("http://hydra-media.cursecdn.com/hearthstone.gamepedia.com/thumb/f/fa/Card_back-Samsung_Galaxy_Gifts.png/150px-Card_back-Samsung_Galaxy_Gifts.png?version=4c0f079e9fd32ffc4a1295ff9c1fef27");
+	background-size: cover;
+}
 #dealer-status{
 	position:relative;
 	display:inline-block;
