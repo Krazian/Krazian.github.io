@@ -1,6 +1,6 @@
 console.log("Doc ready");
 
-
+/////////////////////////////////////   FUNCTION AND VARIABLE DECLARATIONS   ///////////////////////////////////
 var playerWin = false;
 var dealerWin = false;
 var newCard = 0;
@@ -38,12 +38,12 @@ var getACard = function(){
 	deck[suit].splice(card,1); // removes card from the deck
 	return fullCard
 };
-
-var blackJackCheck = function(hand){
+//Original blackjackCheck
+/*var blackJackCheck = function(hand){
 if (total(hand)===21){
 	 return true
 	} 
-};
+};*/
 
 var total = function(hand){
 	var total = 0;
@@ -54,47 +54,76 @@ var total = function(hand){
 };
 
 var twoDisplay = function(string){
-	$("#player-status").textContent+=string;
-	$("#dealer-status").textContent+=string;
+	$("#player-status")[0].textContent+=string;
+	$("#dealer-status")[0].textContent+=string;
 };
 
 var winner = function(){
-	if(total(playerHand)>total(dealerHand)){
-		twoDisplay("You've got: "+total(playerHand)+" and the dealer has: "+total(dealerHand)+". YOU WIN!");
-		}else if (total(dealerHand)>total(playerHand)){
-			twoDisplay(" You've got: "+total(playerHand)+" and the dealer has: "+total(dealerHand)+". You lose...");
-			}else if (total(playerHand)===total(dealerHand)){
-				twoDisplay(" You've got: "+total(playerHand)+" and the dealer has: "+total(dealerHand)+". It's a push.");
+	if(aceCheck(playerHand)>aceCheck(dealerHand)){
+		twoDisplay("--You've got: "+aceCheck(playerHand)+" and the dealer has: "+aceCheck(dealerHand)+". YOU WIN!");
+		}else if (aceCheck(dealerHand)>aceCheck(playerHand)){
+			twoDisplay("--You've got: "+aceCheck(playerHand)+" and the dealer has: "+aceCheck(dealerHand)+". You lose...");
+			}else if (aceCheck(playerHand)===aceCheck(dealerHand)){
+				twoDisplay("--You've got: "+aceCheck(playerHand)+" and the dealer has: "+aceCheck(dealerHand)+". It's a push.");
 				}
 	}
-	var disableButtons = function(){
-		$(".hit").prop("disabled",true)
-		$(".stay").prop("disabled",true)
-		$(".split").prop("disabled",true)
-		$(".double").prop("disabled",true)
-	};
+var disableButtons = function(){
+	$(".hit").prop("disabled",true)
+	$(".stay").prop("disabled",true)
+	$(".split").prop("disabled",true)
+	$(".double").prop("disabled",true)
+};
 
-	var enableButtons = function(){
-		$(".hit").prop("disabled",false)
-		$(".stay").prop("disabled",false)
-		$(".split").prop("disabled",false)
-		$(".double").prop("disabled",false)
+var enableButtons = function(){
+	$(".hit").prop("disabled",false)
+	$(".stay").prop("disabled",false)
+	$(".split").prop("disabled",false)
+	$(".double").prop("disabled",false)
+}
+var aceSearch = function(cards){
+	var aceCounter = 0;
+	for(var i = 0;i<cards.length;i++)
+		if (cards[i][1]==="Ace"){
+			aceCounter++;}
+			return aceCounter;
+		}
+
+var aceCheck = function(hand){
+if(total(hand)===21){
+	return total(hand)
+} else if (total(hand)>=12){
+		if (aceSearch(hand)===0){
+			return total(hand)
+		} else if (aceSearch(hand)<2&&total(hand)<21){
+			return total(hand)
+			} else if (aceSearch(hand)<=2&&total(hand)>21){
+			return total(hand) - 10  
+			} else if (aceSearch(hand)>2){
+				return total(hand) - (10 * (aceSearch(hand)[1]-1));
+				}
+	} else{
+	return total(hand)
 	}
+}
 
+/////////////////////////////////////   EVENT LISTENERS AND GAME LOGIC   ///////////////////////////////////
 //Event for deal button
 $(".deal").on("click",function(){
-	$("#dealer-card").toggleClass("hidden")
+	$("#dealer-card").addClass("hidden")
 	dealCards();
-	$("#player-status")[0].textContent=" You've got: "+total(playerHand);
-	$("#dealer-status")[0].textContent=" Dealer is showing a "+dealerHand[1][1]+" of "+dealerHand[1][0]+".";
-	if (blackJackCheck(playerHand)===true){
-	twoDisplay(" Blackjack! You Win!");
-	} else if (blackJackCheck(playerHand)===true && blackJackCheck(dealerHand)===true){
-		twoDisplay(" Dealer reveals "+dealerHand[0][1]+" of "+dealerHand[0][0]+"."+" Blackjack! It's a push.");
-		} else if (blackJackCheck(dealerHand)===true){
-			twoDisplay("Dealer reveals "+dealerHand[0][1]+" of "+dealerHand[0][0]+"."+" Blackjack! You Lose...");
-			}
 	enableButtons();
+	$("#player-status")[0].textContent="You've got the "+playerHand[0][1]+" of "+playerHand[0][0]+" and the "+playerHand[1][1]+" of "+playerHand[1][0]+ " for a total of "+aceCheck(playerHand)+".";
+	$("#dealer-status")[0].textContent="Dealer is showing a "+dealerHand[1][1]+" of "+dealerHand[1][0]+".";
+	if (aceCheck(playerHand)===21){
+	twoDisplay("--Blackjack! You Win!");
+	disableButtons()
+	} else if (aceCheck(playerHand)===21 && aceCheck(dealerHand)===21){
+		twoDisplay("--Dealer reveals "+dealerHand[0][1]+" of "+dealerHand[0][0]+"."+" Blackjack! It's a push.");
+		disableButtons()
+		} else if (aceCheck(dealerHand)===21){
+			twoDisplay("--Dealer reveals "+dealerHand[0][1]+" of "+dealerHand[0][0]+"."+" Blackjack! You Lose...");
+			disableButtons()
+			}
 	for (var i = 0; i < newCard; i++){
 		$("#new-card").remove() //clears the screen of previously added divs
 	};
@@ -104,40 +133,43 @@ $(".deal").on("click",function(){
 $(".hit").on("click",function(){
 	playerHand.push(getACard());
 	newCard+=1;
-	$("#player-status")[0].textContent+=" You drew the " +playerHand[playerHand.length-1][1]+" of "+playerHand[playerHand.length-1][0]+". You've got: "+total(playerHand)+".";
+	debugger
+	$("#player-status")[0].textContent+="--You drew the " +playerHand[playerHand.length-1][1]+" of "+playerHand[playerHand.length-1][0]+". You've got a "+aceCheck(playerHand)+".";
 	var nextCard = $("<div>").attr({"id":"new-card","class":"four columns"})
 	$("#player").append(nextCard);
-	if (total(playerHand) > 21){
-		$("#player-status")[0].textContent+=" "+total(playerHand)+ "! BUSTED!";
+	debugger
+	if (aceCheck(playerHand) > 21){
+		$("#player-status")[0].textContent+= "--BUSTED!";
 		disableButtons();
 	}
-	else if (total(playerHand) === 21){
-		$("#player-status")[0].textContent+=total(playerHand)+ " 21!";
+	else if (aceCheck(playerHand) === 21){
+		$("#player-status")[0].textContent+="!";
 		disableButtons();
 	}
 });
 //Event for stay button
 $(".stay").on("click",function(){
 	disableButtons();
-	$("#dealer-card").toggleClass("hidden")
-	//Show face down card
+	$("#dealer-card").toggleClass("hidden") //Show face down card
 	//set intervals?
-	$("#dealer-status")[0].textContent+=" Dealer has "+total(dealerHand)+".";
-	if(total(dealerHand)<=16){
+	$("#dealer-status")[0].textContent+="--Dealer reveals a "+dealerHand[0][1]+" of "+dealerHand[0][0];
+
+	if(aceCheck(dealerHand)<=16){
 		do {
 			dealerHand.push(getACard())
 			newCard+=1
 			var nextCard = $("<div>").attr({"id":"new-card","class":"four columns"})
 			$("#dealer").append(nextCard);
-			if (total(dealerHand)>17&&total(dealerHand)<=21){
+			$("#dealer-status")[0].textContent+="--Dealer drew the " +dealerHand[dealerHand.length-1][1]+" of "+dealerHand[dealerHand.length-1][0]+". Dealer has: "+aceCheck(dealerHand)+"."
+			if (aceCheck(dealerHand)>17&&aceCheck(dealerHand)<=21){
 				winner();
-				} else if (total(dealerHand)>21){
-					twoDisplay(" Dealer has "+total(dealerHand)+"! BUST! You Win!")
+				} else if (aceCheck(dealerHand)>21){
+					twoDisplay("--Dealer BUSTS! You Win!")
 				} else{
 					winner()
 				}}	
-			while (total(dealerHand)<17);
-		} else if (total(dealerHand)>16&&total(dealerHand)<=21){
+			while (aceCheck(dealerHand)<17);
+		} else if (aceCheck(dealerHand)>16&&aceCheck(dealerHand)<=21){
 				winner()}
 });
 
