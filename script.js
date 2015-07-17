@@ -52,32 +52,34 @@ var total = function(hand){
 	}
 	return total
 };
-
+//Event for deal button
 $(".deal").on("click",function(){
 	dealCards();
 	$("#player-status")[0].textContent = "You've got: "+total(playerHand);
 	$("#dealer-status")[0].textContent = "Dealer is showing a "+dealerHand[1][1]+" of "+dealerHand[1][0]+".";
 	if (blackJackCheck(playerHand)===true){
-	alert("You Win!");
+	$("#player-status")[0].textContent = "Blackjack! You Win!";
 	} else if (blackJackCheck(playerHand)===true && blackJackCheck(dealerHand)===true){
-		alert("It's a push");
+		$("#player-status")[0].textContent = "It's a push";
 		} else if (blackJackCheck(dealerHand)===true){
-			alert("You Lose!");
+			$("#player-status")[0].textContent = "Dealer has Blackjack! You Lose...";
 			}
-	$(".hit").prop("disabled",false)
-	debugger
+	$(".hit").prop("disabled",false)//Enables player's option buttons
+	$(".stay").prop("disabled",false)
+	$(".split").prop("disabled",false)
+	$(".double").prop("disabled",false)
 	for (var i = 0; i < newCard; i++){
-		$("#new-card").remove()
+		$("#new-card").remove() //clears the screen of previously added divs
 	};
 });
-debugger
+//Event for hit button
+//Account for ace 1 value variant
 $(".hit").on("click",function(){
 	playerHand.push(getACard());
-	newCard+=1; //newCard becomes NaN on click
-	debugger
+	newCard= newCard+1;
 	$("#player-status")[0].textContent = "You've got: "+total(playerHand)+".";
-	var newCard = $("<div>").attr({"id":"new-card","class":"four column"});
-	$("#player").append(newCard);
+	var nextCard = $("<div>").attr({"id":"new-card","class":"four columns"})
+	$("#player").append(nextCard);
 	if (total(playerHand) > 21){
 		$("#player-status")[0].textContent = total(playerHand)+ "! BUSTED!";
 		$(".hit").prop("disabled",true);
@@ -87,44 +89,30 @@ $(".hit").on("click",function(){
 		$(".hit").prop("disabled",true);
 	}
 });
-
-$(".stay").on("click")
-
-
-
-// //Dealer checks first
-// if (total(dealerHand)===21){
-// 	//dealerWin === true
-// }
+//Event for stay button
+$(".stay").on("click",function(){
+	$(".hit").prop("disabled",true)//Enables player's option buttons
+	$(".stay").prop("disabled",true)
+	$(".split").prop("disabled",true)
+	$(".double").prop("disabled",true)
+	//Show face down card
+	//set intervals?
+	$("#dealer-status")[0].textContent = "Dealer has "+total(dealerHand)
+	if(total(dealerHand)<=16){
+		while (total(dealerHand)<21){
+		var nextCard = $("<div>").attr({"id":"new-card","class":"four columns"})
+		$("#dealer").append(nextCard);
+		if (total(dealerHand))>21{
+			$("#dealer-status")[0].textContent = "Dealer has "+total(dealerHand)+"! BUST! You Win!"
+			$("#player-status")[0].textContent = "Dealer has "+total(dealerHand)+"! BUST! You Win!"
+		}//evaluate in else if? or in while?
+			
+		} else if(total(dealerHand)<16){
+			//Evaluate for winner
+})
 
 //Split option & Double Down option
 
-
-// //'Hit' button click
-//$('').on('click',function(){
-// 	playerHand.push(getACard());
-// 	if (total(playerHand)<21){
-// 		//Display total
-// 	}
-// 	else if (total(playerHand)>21){
-// 		//Player loses
-// 	}
-// 	else {
-// 		//Player at 21, disable button and move to dealer
-// 	}
-// }
-
-//Dealer reveal on 'stay button click'
-//$('').on('click',function){}
-// if (total(dealerHand)<=16){
-// 	dealerHand.push(getACard());
-// }
-// else if (total(dealerHand)>=17&&total(dealerHand)<=21){
-// 	//Dealer stays
-// }
-// else {
-// 	//Dealer busts
-// }
 $('#close').on('click',function(){
 	$('#modal').toggle();
 });
