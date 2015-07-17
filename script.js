@@ -109,10 +109,18 @@ if(total(hand)===21){					//___________If blackjack, just return #
 	return total(hand)
 	}
 }
+//Bankroll set up and betting
+var bankroll = 1000
+
+
 
 /////////////////////////////////////   EVENT LISTENERS AND GAME LOGIC   ///////////////////////////////////
 //Event for deal button
 $(".deal").on("click",function(){
+//parameters for betting
+if(parseInt($(".bet")[0].value<10)){
+	$("#player-status")[0].textContent="You need to make a bet of at least $10"
+} else{
 	$("#dealer-card").addClass("hidden");
 	$(".deal").prop("disabled",true);
 	dealCards();
@@ -132,7 +140,7 @@ $(".deal").on("click",function(){
 	for (var i = 0; i < newCard; i++){
 		$("#new-card").remove(); //clears the screen of previously added divs
 		};
-});
+}});
 //Event for hit button
 $(".hit").on("click",function(){
 	playerHand.push(getACard());
@@ -149,15 +157,18 @@ $(".hit").on("click",function(){
 	if (aceCheck(playerHand) > 21){
 		$("#player-status")[0].textContent+= "--BUSTED!";
 		disableButtons();
+		$(".deal").prop("disabled",false)
 	}
 	else if (aceCheck(playerHand) === 21){
 		$("#player-status")[0].textContent+="!";
 		disableButtons();
+		$(".deal").prop("disabled",false)
 	}
 });
 //Event for stay button
 $(".stay").on("click",function(){
 	disableButtons();
+	$(".deal").prop("disabled",false)
 	$("#dealer-card").toggleClass("hidden"); //Show face down card
 	//set intervals?
 	$("#dealer-status")[0].textContent+="--Dealer reveals a "+dealerHand[0][1]+" of "+dealerHand[0][0];

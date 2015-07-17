@@ -58,6 +58,18 @@ text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 	background-image: url("http://hydra-media.cursecdn.com/hearthstone.gamepedia.com/thumb/f/fa/Card_back-Samsung_Galaxy_Gifts.png/150px-Card_back-Samsung_Galaxy_Gifts.png?version=4c0f079e9fd32ffc4a1295ff9c1fef27");
 	background-size: cover;
 }
+.dealer1{
+
+}
+.dealer2{
+
+}
+.player1{
+
+}
+.player2{
+
+}
 #dealer-status{
 	position:relative;
 	display:inline-block;
@@ -102,25 +114,32 @@ text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 bottom:0;
 margin-top:10px;
 position:fixed;
+text-align: left;
 }
 button{
 	font-family: 'Raleway', sans-serif;
-	text-align: center;
+	color:white;
 	display:inline-block;
 	position:relative;
-	font-size: 30px;
+	font-size: 20px;
 	font-style: oblique;
 	height: 50px;
-	width: 150px;
+	width: 100px;
 	border-width: 2px;
 	border-color:black;
 	margin: 3px;
-  background: -webkit-linear-gradient(black, grey);
-  background: -o-linear-gradient(white, grey);
-  background: -moz-linear-gradient(white, grey);
-  background: linear-gradient(white, grey);
+	padding:0px;
+  background: -webkit-linear-gradient(black, red);
+  background: -o-linear-gradient(black, red);
+  background: -moz-linear-gradient(black, red);
+  background: linear-gradient(black, red);
 }
-
+.money{
+	float:left;
+	color:white;
+	font-size:20px;
+	margin-top:10px;
+}
 
 
 /*HELPER STUFF*/
