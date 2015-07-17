@@ -2,29 +2,64 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
-	<link rel="stylesheet" src="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css" />
+	<!-- Be sure to change hrefs to CDN -->
+	<link href="/Users/Chei/Downloads/Skeleton-2.0.4/css/normalize.css" rel="stylesheet"/>
+	<link  href="/Users/Chei/Downloads/Skeleton-2.0.4/css/skeleton.css" rel="stylesheet"/>
 	<link href='https://fonts.googleapis.com/css?family=Raleway:800' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" href="style.css">
-	<title>Blacjack!</title>
+	<title>Blackjack!</title>
 </head>
+
 <body>
-	<h1></h1>
-	<modal>
-	<article id="status"></article>
-	<div id="cards">
-	<div id="dealer" class="row">The Dealer</div>
-		<div id="dealer-card" class="three columns"></div>
-		<div id="dealer-card" class="three columns"></div>
-	<div id="player" class="row">You</div>
-		<div id="player-card" class="three columns"></div>
-		<div id="player-card" class="three columns"></div>
+	<h1>BLACKJACK</h1>
+
+	<div id="modal">
+    <div class='modal-content'>
+	        <h2>LET'S PLAY SOME BLACKJACK!</h2> 
+	        <p class="start">Let'start you off with $1000!<br/>
+	        	Minimum bet is $10.<br/> 
+	        	Good Luck!</p>  
+	    </div>
+	    <div class='modal-body'>
+ 				<button id="close">Let's Do It!</button>
+	  </div>
 	</div>
-	<ul id="options">
-		<li><button type="button">DEAL</button></li>
-		<li><button type="button">HIT</button></li>
-		<li><button type="button">FOLD</button></li>
-	</ul>
+
+	<div id="layout" class="container">
+		
+			<div id="dealer" class="row">
+				<p>The Dealer</p>
+				<div id="dealer-card" class="four columns"></div>
+				<div id="dealer-card" class="four columns"></div>
+				<div id="dealer-status" class="four columns"></div>
+					</div>
+
+<div id="player" class="row">
+		<p>You</p>
+		<div id="player-card" class="four columns" ></div>
+		<div id="player-card" class="four columns"></div>
+		<div id="player-status" class="four columns">
+			<p>
+			-Click 'DEAL' to shuffle and deal! <br/>
+			-Click 'HIT' to get another card! <br/>
+			-Click 'STAY' to end your turn! <br/>
+			-Click 'SPLIT' to split your hand into two! <br/>
+			-Click 'D.D.' to 'Double Down' on your hand!
+			</p>
+			</div>
+		</div>
+				<div class="options">
+			<button class="deal">DEAL</button>
+			<button class="hit">HIT</button>
+			<button class="stay">STAY</button>
+			<button class="split">SPLIT</button>
+			<button class="double">D.D.</button>
+			</div>
+	</div>
+		</div>
+	</div>
 </body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="script.js"></script>
 </html>
