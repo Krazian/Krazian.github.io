@@ -5,6 +5,7 @@ var playerWin = false;//necessary?
 var dealerWin = false;//necessary?
 var newCard = 0;
 var bankroll = 1000;
+$("#You")[0].textContent+=bankroll
 
 //Every time dealCards is envoked, used deck is replaced with new deck.
 var dealCards = function(){
@@ -56,20 +57,45 @@ var twoDisplay = function(string){
 	$("#dealer-status")[0].textContent+=string;
 };
 
-//calculates and determines win/lose/push
+//Calculates and determines win/lose/push AND handles bankroll calculations
 var winner = function(){
-	if(aceCheck(playerHand)>aceCheck(dealerHand)){
+	//No bust and player has higher hand
+	if((aceCheck(playerHand)>aceCheck(dealerHand)&&(aceCheck(playerHand)<=21))){
 		twoDisplay("--You've got: "+aceCheck(playerHand)+" and the dealer has: "+aceCheck(dealerHand)+". YOU WIN!");
 		bankroll += 2*parseInt($(".bet")[0].value);
-		}else if (aceCheck(dealerHand)>aceCheck(playerHand)){
+		$("#You")[0].textContent = "You - $"+(bankroll)
+		playerWin = true;
+		dealerWin = false;
+		//Player has lower hand, but dealer busts
+	} else if((aceCheck(playerHand)<aceCheck(dealerHand)&&(aceCheck(dealerHand)>21))){
+		twoDisplay("--You've got: "+aceCheck(playerHand)+" and the dealer has: "+aceCheck(dealerHand)+". YOU WIN!");
+		bankroll += 2*parseInt($(".bet")[0].value);
+		$("#You")[0].textContent = "You - $"+(bankroll)
+		playerWin = true;
+		dealerWin = false;
+		//No bust and dealer has higher hand
+		}else if ((aceCheck(dealerHand)>aceCheck(playerHand)&&(aceCheck(dealerHand)<=21))){
 			twoDisplay("--You've got: "+aceCheck(playerHand)+" and the dealer has: "+aceCheck(dealerHand)+". You lose...");
+			dealerWin = true;
+			playerWin = false;
+
+			//Dealer has lower hand, but player busts
+			}else if ((aceCheck(dealerHand)<aceCheck(playerHand)&&(aceCheck(playerHand)>21))){
+			twoDisplay("--You've got: "+aceCheck(playerHand)+" and the dealer has: "+aceCheck(dealerHand)+". You lose...");
+			dealerWin = true;
+			playerWin = false;
+
+			//No busts, both players value equal
 			}else if (aceCheck(playerHand)===aceCheck(dealerHand)){
 				twoDisplay("--You've got: "+aceCheck(playerHand)+" and the dealer has: "+aceCheck(dealerHand)+". It's a push.");
 				bankroll += parseInt($(".bet")[0].value);
+				$("#You")[0].textContent = "You - $"+(bankroll)
+				dealerWin = false;
+				playerWin = false;
 				}
 	}
 
-//turns of all button from accepting user interaction
+//Turns OFF all button from accepting user interaction
 var disableButtons = function(){
 	$(".hit").prop("disabled",true);
 	$(".stay").prop("disabled",true);
@@ -78,7 +104,7 @@ var disableButtons = function(){
 
 };
 
-//turns on all buttons
+//Turns ON all buttons
 var enableButtons = function(){
 	$(".hit").prop("disabled",false);
 	$(".stay").prop("disabled",false);
@@ -86,7 +112,7 @@ var enableButtons = function(){
 	$(".double").prop("disabled",false);
 }
 
-//search for all instance of an ace
+//Search for all instance of an ace
 var aceSearch = function(cards){ 		
 	var aceCounter = 0;
 	for(var i = 0;i<cards.length;i++)
@@ -94,107 +120,58 @@ var aceSearch = function(cards){
 			aceCounter++;}
 			return aceCounter;
 		}
-//change ace value from 11 to 1 if necessary
+//Change ace value from 11 to 1 if necessary
 var aceCheck = function(hand){
-if(total(hand)===21){					//___________If blackjack, just return #
-	return total(hand)
-} else if (total(hand)>=12){  //___________Min value of hand w/ ace is 12 (A A)
-		if (aceSearch(hand)===0){ //___________If NO aces, return value
-			return total(hand)
-		} else if (aceSearch(hand)<2&&total(hand)<21){     //________If 0 or 1 ace, return value
-			return total(hand)
-			} else if (aceSearch(hand)<=2&&total(hand)>21){  //________If 1 or 2 aces, BUT total is more that 21, reduce by 10
-			return total(hand) - 10  
-			} else if (aceSearch(hand)>2){						//_______________If multiple aces, reduce by 10 per one less total ace.
-				return total(hand) - (10 * (aceSearch(hand)[1]-1));
+	var grandTotal = total(hand);
+	//If blackjack, just return #
+if(total(hand)===21){
+	return grandTotal
+	  //Min value of hand w/ ace is 12 (A A)
+} else if (total(hand)>=12){
+	 	//If NO aces, return value
+		if (aceSearch(hand)===0){
+			return grandTotal
+			//If 0 or 1 ace, return value
+		} else if (aceSearch(hand)<2&&total(hand)<21){
+			return grandTotal
+			//If 1 or 2 aces, BUT total is more that 21, reduce by 10
+			} else if (aceSearch(hand)<=2&&total(hand)>21){  
+			return grandTotal -= 10  
+			//If multiple aces, reduce by 10 per one less total ace.
+			} else if (aceSearch(hand)>2&&total(hand)>21){
+				return grandTotal -= (10 * (aceSearch(hand)-1));
 				}
-	} else{					//____________all other numbers before 12
+		//All other hands less 12
+	} else{
 	return total(hand)
 	}
 }
 var moneyManage = function(){
+	$("#You")[0].textContent="You - $" + bankroll
 	if (bankroll < 10){
 		$('#modal').toggle();
+		//Creates blank space in modal
 		$(".modal-content").empty();
 		$('#close').remove();
+		//Creates a 'try again' button that refreshes the page
 		var refresh = $("<button>").attr("id","refresh")
 		$(".modal-body").append(refresh);
 		$("#refresh").text("Click to Try Again!");
+		$('#refresh').on('click',function(){
+    location.reload(true);
+		});
 		$(".modal-content")[0].textContent="You don't have enough money to play.. GAME OVER!";
 	}
 }
 
-/////////////////////////////////////   EVENT LISTENERS AND GAME LOGIC   ///////////////////////////////////
-//Event for deal button
-$(".deal").on("click",function(){
-//parameters for betting
-if((parseInt($(".bet")[0].value)<10)&&(parseInt($(".bet")[0].value))<bankroll){
-	$("#player-status")[0].textContent="You need to make a bet of at least $10"
-	} else if ((parseInt($(".bet")[0].value))>bankroll){
-		$("#player-status")[0].textContent="You don't have that much in your bankroll"
-		} else{
-	bankroll -= parseInt($(".bet")[0].value);//remove bet from bank roll
-	$("#dealer-card").addClass("hidden");
-	$(".deal").prop("disabled",true);
-	dealCards();
-	enableButtons();
-	$("#player-status")[0].textContent="You've got the "+playerHand[0][1]+" of "+playerHand[0][0]+" and the "+playerHand[1][1]+" of "+playerHand[1][0]+ " for a total of "+aceCheck(playerHand)+".";
-	$("#dealer-status")[0].textContent="Dealer is showing a "+dealerHand[1][1]+" of "+dealerHand[1][0]+".";
-	if (aceCheck(playerHand)===21){
-	twoDisplay("--Blackjack! You Win!");
-	disableButtons();
-	bankroll += 2*parseInt($(".bet")[0].value);
-	$(".deal").prop("disabled",false)
-	} else if (aceCheck(playerHand)===21 && aceCheck(dealerHand)===21){
-		twoDisplay("--Dealer reveals "+dealerHand[0][1]+" of "+dealerHand[0][0]+"."+" Blackjack! It's a push.");
-		disableButtons();
-		moneyManage();
-		bankroll += parseInt($(".bet")[0].value);
-		$(".deal").prop("disabled",false)
-		} else if (aceCheck(dealerHand)===21){
-			twoDisplay("--Dealer reveals "+dealerHand[0][1]+" of "+dealerHand[0][0]+"."+" Blackjack! You Lose...");
-			disableButtons();
-			moneyManage();
-			$(".deal").prop("disabled",false)
-			}
-	for (var i = 0; i < newCard; i++){
-		$("#new-card").remove(); //clears the screen of previously added divs
-		};
-}});
-//Event for hit button
-$(".hit").on("click",function(){
-	playerHand.push(getACard());
-	newCard+=1;
-	$("#player-status")[0].textContent+="--You drew the " +playerHand[playerHand.length-1][1]+" of "+playerHand[playerHand.length-1][0]+". You've got a "+aceCheck(playerHand)+".";
-	var nextCard = $("<div>").attr({"id":"new-card-player","class":"four columns"});
-//Space to write code to cards suits and #
-
-
-
-
-
-	$("#player").append(nextCard);
-	if (aceCheck(playerHand) > 21){
-		$("#player-status")[0].textContent+= "--BUSTED!";
-		disableButtons();
-		moneyManage();
-		$(".deal").prop("disabled",false)
-	}
-	else if (aceCheck(playerHand) === 21){
-		$("#player-status")[0].textContent+="!";
-		disableButtons();
-		$(".deal").prop("disabled",false)
-	}
-});
-//Event for stay button
-$(".stay").on("click",function(){
+var doDealerThings = function(){
 	disableButtons();
 	$(".deal").prop("disabled",false)
 	$("#dealer-card").toggleClass("hidden"); //Show face down card
 	//set intervals?
-	$("#dealer-status")[0].textContent+="--Dealer reveals a "+dealerHand[0][1]+" of "+dealerHand[0][0];
-
-	if(aceCheck(dealerHand)<=16){
+	$("#dealer-status")[0].textContent+="--Dealer reveals a "+dealerHand[0][1]+" of "+dealerHand[0][0]+".";
+	//Dealer must hit on 16 or below or 'soft' 17
+	if((aceCheck(dealerHand)<=16)||((aceCheck(dealerHand)===17)&&(dealerHand[0][1]==="Ace"||dealerHand[1][1]==="Ace"))){
 		do {
 			dealerHand.push(getACard());
 			newCard+=1;
@@ -208,29 +185,124 @@ $(".stay").on("click",function(){
 
 			$("#dealer").append(nextCard);
 			$("#dealer-status")[0].textContent+="--Dealer drew the " +dealerHand[dealerHand.length-1][1]+" of "+dealerHand[dealerHand.length-1][0]+". Dealer has: "+aceCheck(dealerHand)+".";
-			if (aceCheck(dealerHand)>17&&aceCheck(dealerHand)<=21){
+			//If hand is between 17 and 21, dealer stops drawing cards and evaluates
+			if (aceCheck(dealerHand)>=17&&aceCheck(dealerHand)<=21){
 				winner();
 				moneyManage();
 				$(".deal").prop("disabled",false);
+				//Dealer busts over 21, evaluate
 				} else if (aceCheck(dealerHand)>21){
-					twoDisplay("--Dealer BUSTS! You Win!");
-					bankroll += 2*parseInt($(".bet")[0].value);
-				} else{
+					twoDisplay("--Dealer BUSTS!");
 					winner();
-					moneyManage();
+				//If still under 16, draw again	
+				} else{
 					$(".deal").prop("disabled",false);
-				}}	
+				}}
+			//Repeat 'do' and if/else if while hand is less than 17
 			while (aceCheck(dealerHand)<17);
-		} else if (aceCheck(dealerHand)>16&&aceCheck(dealerHand)<=21){
+		//If starting hand over 17, do nothing and evaluate
+		}else if (aceCheck(dealerHand)>16&&aceCheck(dealerHand)<=21){
 				winner();
 				moneyManage();
 				$(".deal").prop("disabled",false);
 			}
+};
+
+
+/////////////////////////////////////   EVENT LISTENERS AND GAME LOGIC   ///////////////////////////////////
+//Event for deal button
+$(".deal").on("click",function(){
+	//Clears the screen of previously added divs
+				for (var i = 0; i <= 11; i++){
+					$("#new-card-player").remove();
+					$("#new-card-dealer").remove();
+					};
+//parameters for betting
+if(parseInt($(".bet")[0].value)<10){ //Min 10 dollar bet
+	$("#player-status")[0].textContent="You need to make a bet of at least $10"
+	} else if ((parseInt($(".bet")[0].value))>bankroll){ //Prevent over bet
+		$("#player-status")[0].textContent="You don't have that much in your bankroll"
+		} else{ //Run program as normal
+				//Temporaryily remove bet from bank roll until hand is resolved
+				$("#You")[0].textContent = "You - $"+(bankroll -= parseInt($(".bet")[0].value));
+				$("#dealer-card").addClass("hidden");
+				$(".deal").prop("disabled",true);
+				dealCards();
+				enableButtons();
+				//Display starting hand
+				$("#player-status")[0].textContent="You've got the "+playerHand[0][1]+" of "+playerHand[0][0]+" and the "+playerHand[1][1]+" of "+playerHand[1][0]+ " for a total of "+aceCheck(playerHand)+".";
+				$("#dealer-status")[0].textContent="Dealer is showing a "+dealerHand[1][1]+" of "+dealerHand[1][0]+".";
+				//Blackjack for both
+				if (aceCheck(playerHand)===21 && aceCheck(dealerHand)===21){
+					twoDisplay("--Dealer reveals "+dealerHand[0][1]+" of "+dealerHand[0][0]+"."+" Blackjack!");
+					$("#dealer-card").toggleClass("hidden"); 
+					disableButtons();
+					moneyManage();
+					winner();
+					$(".deal").prop("disabled",false)
+					//Blackjack for dealer
+					} else if (aceCheck(dealerHand)===21){
+								twoDisplay("--Dealer reveals "+dealerHand[0][1]+" of "+dealerHand[0][0]+"."+" Blackjack!");
+								$("#dealer-card").toggleClass("hidden"); 
+								disableButtons();
+								moneyManage();
+								winner();
+								$(".deal").prop("disabled",false)
+						//Blackjack for player
+						} else if (aceCheck(playerHand)===21){
+						bankroll += (parseInt($(".bet")[0].value)/2)
+						twoDisplay("--Blackjack!");
+						$("#dealer-card").toggleClass("hidden"); 
+						disableButtons();
+						moneyManage();
+						winner();
+						$(".deal").prop("disabled",false)}
+				
+}});
+
+//Event for hit button
+$(".hit").on("click",function(){
+	playerHand.push(getACard());
+	newCard+=1;
+	$("#player-status")[0].textContent+="--You drew the " +playerHand[playerHand.length-1][1]+" of "+playerHand[playerHand.length-1][0]+". You've got a "+aceCheck(playerHand)+".";
+	var nextCard = $("<div>").attr({"id":"new-card-player","class":"four columns"});
+//Space to write code to cards suits and #
+	$("#player").append(nextCard);
+	if (aceCheck(playerHand) > 21){
+		$("#player-status")[0].textContent+= "--BUSTED!";
+		disableButtons();
+		moneyManage();
+		$(".deal").prop("disabled",false)
+	}
+	else if (aceCheck(playerHand) === 21){
+		$("#player-status")[0].textContent+="!";
+		disableButtons();
+		$(".stay").prop("disabled",false)
+	}
+});
+//Event for stay button
+$(".stay").on("click",function(){
+doDealerThings();
+});
+
+//Event for Double Down button
+$(".double").on("click",function(){
+	if (playerHand.length === 2){
+	$("#You")[0].textContent = "You - $"+(bankroll -= parseInt($(".bet")[0].value));
+	doDealerThings();
+	if ((playerWin === true)&&(dealerWin ===false)){
+		$("#You")[0].textContent = "You - $"+(bankroll += 2*parseInt($(".bet")[0].value));
+	} else if ((playerWin === false)&&(dealerWin===false))
+	$("#You")[0].textContent = "You - $"+(bankroll += parseInt($(".bet")[0].value))
+} else if (playerHand.length > 2){
+	$(".split").prop("disabled",true)
+	$(".double").prop("disabled",true)
+}
 });
 
 //Game Over refresh event
-$('#refresh').click(function() {
-    location.reload();
+$('#refresh').on('click',function(){
+    location.reload(true);
 });
 //Split option & Double Down option
 
@@ -238,6 +310,48 @@ $('#close').on('click',function(){
 	$('#modal').toggle();
 	enableButtons();
 });
+
+// 	disableButtons();
+// 	$(".deal").prop("disabled",false)
+// 	$("#dealer-card").toggleClass("hidden"); //Show face down card
+// 	//set intervals?
+// 	$("#dealer-status")[0].textContent+="--Dealer reveals a "+dealerHand[0][1]+" of "+dealerHand[0][0];
+// 	//Dealer must hit on 16 or below or 'soft' 17
+// 	if((aceCheck(dealerHand)<=16)||(aceCheck(dealerHand)===17&&(dealerHand[0][1]==="Ace"||dealerHand[1][1]==="Ace"))){
+// 		do {
+// 			dealerHand.push(getACard());
+// 			newCard+=1;
+// 			var nextCard = $("<div>").attr({"id":"new-card-dealer","class":"four columns"});
+// //Space to write code to cards suits and #
+
+
+
+
+
+
+// 			$("#dealer").append(nextCard);
+// 			$("#dealer-status")[0].textContent+="--Dealer drew the " +dealerHand[dealerHand.length-1][1]+" of "+dealerHand[dealerHand.length-1][0]+". Dealer has: "+aceCheck(dealerHand)+".";
+// 			//If hand is between 17 and 21, dealer stops drawing cards
+// 			if (aceCheck(dealerHand)>17&&aceCheck(dealerHand)<=21){
+// 				winner();
+// 				moneyManage();
+// 				$(".deal").prop("disabled",false);
+// 				//Dealer busts over 21
+// 				} else if (aceCheck(dealerHand)>21){
+// 					twoDisplay("--Dealer BUSTS!");
+// 					winner();
+// 				//If still under 16, draw again	
+// 				} else{
+// 					$(".deal").prop("disabled",false);
+// 				}}
+// 			//Repeat 'do' and if/else if while hand is less than 17
+// 			while (aceCheck(dealerHand)<17);
+// 		//If starting hand over 17, do nothing.
+// 		}else if (aceCheck(dealerHand)>16&&aceCheck(dealerHand)<=21){
+// 				winner();
+// 				moneyManage();
+// 				$(".deal").prop("disabled",false);
+// 			}
 
 
 
