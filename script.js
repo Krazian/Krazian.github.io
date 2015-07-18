@@ -4,6 +4,7 @@ console.log("Doc ready");
 var playerWin = false;//necessary?
 var dealerWin = false;//necessary?
 var newCard = 0;
+var bankroll = 1000;
 
 //Every time dealCards is envoked, used deck is replaced with new deck.
 var dealCards = function(){
@@ -59,10 +60,12 @@ var twoDisplay = function(string){
 var winner = function(){
 	if(aceCheck(playerHand)>aceCheck(dealerHand)){
 		twoDisplay("--You've got: "+aceCheck(playerHand)+" and the dealer has: "+aceCheck(dealerHand)+". YOU WIN!");
+		bankroll += 2*parseInt($(".bet")[0].value);
 		}else if (aceCheck(dealerHand)>aceCheck(playerHand)){
 			twoDisplay("--You've got: "+aceCheck(playerHand)+" and the dealer has: "+aceCheck(dealerHand)+". You lose...");
 			}else if (aceCheck(playerHand)===aceCheck(dealerHand)){
 				twoDisplay("--You've got: "+aceCheck(playerHand)+" and the dealer has: "+aceCheck(dealerHand)+". It's a push.");
+				bankroll += parseInt($(".bet")[0].value);
 				}
 	}
 
@@ -109,18 +112,28 @@ if(total(hand)===21){					//___________If blackjack, just return #
 	return total(hand)
 	}
 }
-//Bankroll set up and betting
-var bankroll = 1000
-
-
+var moneyManage = function(){
+	if (bankroll < 10){
+		$('#modal').toggle();
+		$(".modal-content").empty();
+		$('#close').remove();
+		var refresh = $("<button>").attr("id","refresh")
+		$(".modal-body").append(refresh);
+		$("#refresh").text("Click to Try Again!");
+		$(".modal-content")[0].textContent="You don't have enough money to play.. GAME OVER!";
+	}
+}
 
 /////////////////////////////////////   EVENT LISTENERS AND GAME LOGIC   ///////////////////////////////////
 //Event for deal button
 $(".deal").on("click",function(){
 //parameters for betting
-if(parseInt($(".bet")[0].value<10)){
+if((parseInt($(".bet")[0].value)<10)&&(parseInt($(".bet")[0].value))<bankroll){
 	$("#player-status")[0].textContent="You need to make a bet of at least $10"
-} else{
+	} else if ((parseInt($(".bet")[0].value))>bankroll){
+		$("#player-status")[0].textContent="You don't have that much in your bankroll"
+		} else{
+	bankroll -= parseInt($(".bet")[0].value);//remove bet from bank roll
 	$("#dealer-card").addClass("hidden");
 	$(".deal").prop("disabled",true);
 	dealCards();
@@ -130,12 +143,19 @@ if(parseInt($(".bet")[0].value<10)){
 	if (aceCheck(playerHand)===21){
 	twoDisplay("--Blackjack! You Win!");
 	disableButtons();
+	bankroll += 2*parseInt($(".bet")[0].value);
+	$(".deal").prop("disabled",false)
 	} else if (aceCheck(playerHand)===21 && aceCheck(dealerHand)===21){
 		twoDisplay("--Dealer reveals "+dealerHand[0][1]+" of "+dealerHand[0][0]+"."+" Blackjack! It's a push.");
 		disableButtons();
+		moneyManage();
+		bankroll += parseInt($(".bet")[0].value);
+		$(".deal").prop("disabled",false)
 		} else if (aceCheck(dealerHand)===21){
 			twoDisplay("--Dealer reveals "+dealerHand[0][1]+" of "+dealerHand[0][0]+"."+" Blackjack! You Lose...");
 			disableButtons();
+			moneyManage();
+			$(".deal").prop("disabled",false)
 			}
 	for (var i = 0; i < newCard; i++){
 		$("#new-card").remove(); //clears the screen of previously added divs
@@ -157,6 +177,7 @@ $(".hit").on("click",function(){
 	if (aceCheck(playerHand) > 21){
 		$("#player-status")[0].textContent+= "--BUSTED!";
 		disableButtons();
+		moneyManage();
 		$(".deal").prop("disabled",false)
 	}
 	else if (aceCheck(playerHand) === 21){
@@ -189,20 +210,28 @@ $(".stay").on("click",function(){
 			$("#dealer-status")[0].textContent+="--Dealer drew the " +dealerHand[dealerHand.length-1][1]+" of "+dealerHand[dealerHand.length-1][0]+". Dealer has: "+aceCheck(dealerHand)+".";
 			if (aceCheck(dealerHand)>17&&aceCheck(dealerHand)<=21){
 				winner();
+				moneyManage();
 				$(".deal").prop("disabled",false);
 				} else if (aceCheck(dealerHand)>21){
 					twoDisplay("--Dealer BUSTS! You Win!");
+					bankroll += 2*parseInt($(".bet")[0].value);
 				} else{
 					winner();
+					moneyManage();
 					$(".deal").prop("disabled",false);
 				}}	
 			while (aceCheck(dealerHand)<17);
 		} else if (aceCheck(dealerHand)>16&&aceCheck(dealerHand)<=21){
 				winner();
+				moneyManage();
 				$(".deal").prop("disabled",false);
 			}
 });
 
+//Game Over refresh event
+$('#refresh').click(function() {
+    location.reload();
+});
 //Split option & Double Down option
 
 $('#close').on('click',function(){
