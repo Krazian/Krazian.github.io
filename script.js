@@ -7,8 +7,9 @@ console.log("Doc ready");
 	$("#player-status").hide()
 
 /////////////////////////////////////   FUNCTION AND VARIABLE DECLARATIONS   ///////////////////////////////////
-var playerWin = false;//necessary?
-var dealerWin = false;//necessary?
+var playerWin = false;
+var dealerWin = false;
+var insurance = false
 var newCard = 0;
 var bankroll = 1000;
 $("#You")[0].textContent+=bankroll
@@ -109,7 +110,7 @@ var disableButtons = function(){
 	$(".stay").prop("disabled",true);
 	$(".split").prop("disabled",true);
 	$(".double").prop("disabled",true);
-
+	$(".insurance").prop("disabled",true);
 };
 
 //Turns ON all buttons
@@ -180,7 +181,7 @@ var doDealerThings = function(){
 	disableButtons();
 	$(".deal").prop("disabled",false)
 	$("#dealer-card").toggleClass("hidden"); //Show face down card
-	$("#dealer-status")[0].textContent+="--Dealer reveals a "+dealerHand[0][1]+" of "+dealerHand[0][0]+".";
+	$("#dealer-status")[0].textContent+="--Dealer reveals a "+dealerHand[0][1]+" of "+dealerHand[0][0]+". for a total of: "+aceCheck(dealerHand)+".";
 	//Dealer must hit on 16 or below or 'soft' 17
 	if((aceCheck(dealerHand)<=16)||((aceCheck(dealerHand)===17)&&(dealerHand[0][1]==="Ace"||dealerHand[1][1]==="Ace"))){
 		do {
@@ -319,8 +320,16 @@ $(".stay").on("click",function(){
 //Event for Double Down button
 $(".double").on("click",function(){
 	if (playerHand.length === 2){
-			$("#You")[0].textContent = "You - $"+(bankroll -= parseInt($(".bet")[0].value));
 			doDealerThings();
+			$(".dealer1").css("background-image",dealerHand[0][3]);
+			$("#You")[0].textContent = "You - $"+(bankroll -= parseInt($(".bet")[0].value));
+			playerHand.push(getACard());
+			newCard+=1;
+			$("#player-status")[0].textContent+="--You drew the " +playerHand[playerHand.length-1][1]+" of "+playerHand[playerHand.length-1][0]+". You've got a "+aceCheck(playerHand)+".";
+			var nextCard = $("<div>").attr({"id":"new-card-player","class":"four columns animated fadeInUp"});
+			nextCard.css("background-image",playerHand[playerHand.length-1][3]);
+			$("#player").append(nextCard);
+			
 			if ((playerWin === true)&&(dealerWin ===false)){
 				$("#You")[0].textContent = "You - $"+(bankroll += 2*parseInt($(".bet")[0].value));
 			} else if ((playerWin === false)&&(dealerWin===false)){
@@ -330,16 +339,20 @@ $(".double").on("click",function(){
 		$(".double").prop("disabled",true)}
 }});
 
+// //Event for Insurance Button
+// $('.insurance').on('click',function(){
+// 	$("#You")[0].textContent = "You - $"+(bankroll -= parseInt($(".bet")[0].value/2));
+// 	$(".insurance").prop("disabled",true);
+// 	insurance = true;
+// });
+
 //Event for Split button
 // $(".split").on("click",function(){
 // 	if (playerHand.length === 2){
 // 		playerSplitHand[0]=playerHand[1];
 // 		playerHand.pop();
 // 	}
-
 // });
-
-//Split option & Double Down option
 
 $('#close').on('click',function(){
 	$('#modal').toggle();
