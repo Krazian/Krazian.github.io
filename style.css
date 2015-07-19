@@ -2,11 +2,11 @@ body{
 	background-image:url("http://www.threadsofgreenfabrics.com/shop/images/CR527.jpg");
 	background-size: cover;
 }
-h1{
+#bj-header{
 	background-image:url("http://www.muratkaya.com.tr/wp-content/uploads/2011/06/blackjackBanner.jpg");
 	width:678px;
 	height:160px;
-	margin: auto;
+	margin: 0px 158px 0px 50px;
 	border-radius:5px;
 	color:#000000;
 	text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
@@ -20,6 +20,12 @@ h1{
 	height: 100%;
 	width: 100%;
 	background-color: rgba(120,120,120,.8);
+}
+.modal-content{
+	text-align:center;
+}
+.modal-body{
+	text-align:center;
 }
 h2{
 	color:white;
@@ -69,18 +75,26 @@ text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 	background-image: url("http://hydra-media.cursecdn.com/hearthstone.gamepedia.com/thumb/f/fa/Card_back-Samsung_Galaxy_Gifts.png/150px-Card_back-Samsung_Galaxy_Gifts.png?version=4c0f079e9fd32ffc4a1295ff9c1fef27");
 	background-size: cover;
 }
-.dealer1{
-
+#new-card-dealer{
+	width: 150px;
+	height:225px;
+	border-radius: 15px;
+	border-style: solid;
+	border-color: black;
+	border-width: 1px;
+	background-color: white;
+	display: inline-block;
+	position:relative;
+}
+.suit-pic{
+	position:relative;
+	margin:auto;
 }
 .dealer2{
-
+	height:100%;
+  width:100%;
 }
-.player1{
 
-}
-.player2{
-
-}
 #dealer-status{
 	position:relative;
 	display:inline-block;

@@ -15,6 +15,7 @@ deck = [
 [["Clubs","King",10],["Clubs","Queen",10],["Clubs","Jack",10],["Clubs","10",10],["Clubs","9",9],["Clubs","8",8],["Clubs","7",7],["Clubs","6",6],["Clubs","5",5],["Clubs","4",4],["Clubs","3",3],["Clubs","2",2],["Clubs","Ace",11]],
 [["Diamonds","King",10],["Diamonds","Queen",10],["Diamonds","Jack",10],["Diamonds","10",10],["Diamonds","9",9],["Diamonds","8",8],["Diamonds","7",7],["Diamonds","6",6],["Diamonds","5",5],["Diamonds","4",4],["Diamonds","3",3],["Diamonds","2",2],["Diamonds","Ace",11]]] ;
 playerHand = [];
+playerSplitHand =[]
 dealerHand = [];
 playerHand.push(getACard());
 dealerHand.push(getACard());
@@ -177,7 +178,7 @@ var doDealerThings = function(){
 			newCard+=1;
 			var nextCard = $("<div>").attr({"id":"new-card-dealer","class":"four columns"});
 //Space to write code to cards suits and #
-
+			
 
 
 
@@ -208,15 +209,36 @@ var doDealerThings = function(){
 			}
 };
 
+/*var suitImage = function(suit) {
+	switch (suit){
+		case "Spades":
+			var pic = $("<div>").attr("class","suit-pic")
+			$(".suit-pic").css("background-image","url('http://www.imageno.com/thumbs/20150718/r10svtl1ozd5.jpg')");
+			break;
+			//
+		case "Hearts":
+			var pic = $("<div>").attr("class","suit-pic")
+			$(".suit-pic").css("background-image","url('http://www.imageno.com/thumbs/20150718/2beuexri99km.jpg')");
+			break;
+		case "Clubs":
+			var pic = $("<div>").attr("class","suit-pic")
+			$(".suit-pic").css("background-image","url('http://www.imageno.com/thumbs/20150718/dmnyqck6oq6o.jpg')");
+			break;
+		case "Diamonds":
+			var pic = $("<div>").attr("class","suit-pic")
+			$(".suit-pic").css("background-image","url('http://www.imageno.com/thumbs/20150718/ts36l7tbj6wi.jpg')");
+			break;
+	}
+	return pic
+}*/
 
 /////////////////////////////////////   EVENT LISTENERS AND GAME LOGIC   ///////////////////////////////////
-//Event for deal button
-$(".deal").on("click",function(){
-	//Clears the screen of previously added divs
-				for (var i = 0; i <= 11; i++){
-					$("#new-card-player").remove();
-					$("#new-card-dealer").remove();
-					};
+//Event for Deal button
+//Clears the screen of previously added divs
+for (var i = 0; i <= 11; i++){
+	$("#new-card-player").remove();
+	$("#new-card-dealer").remove();
+	};
 //parameters for betting
 if(parseInt($(".bet")[0].value)<10){ //Min 10 dollar bet
 	$("#player-status")[0].textContent="You need to make a bet of at least $10"
@@ -260,7 +282,7 @@ if(parseInt($(".bet")[0].value)<10){ //Min 10 dollar bet
 				
 }});
 
-//Event for hit button
+//Event for Hit button
 $(".hit").on("click",function(){
 	playerHand.push(getACard());
 	newCard+=1;
@@ -280,7 +302,7 @@ $(".hit").on("click",function(){
 		$(".stay").prop("disabled",false)
 	}
 });
-//Event for stay button
+//Event for Stay button
 $(".stay").on("click",function(){
 doDealerThings();
 });
@@ -288,17 +310,25 @@ doDealerThings();
 //Event for Double Down button
 $(".double").on("click",function(){
 	if (playerHand.length === 2){
-	$("#You")[0].textContent = "You - $"+(bankroll -= parseInt($(".bet")[0].value));
-	doDealerThings();
-	if ((playerWin === true)&&(dealerWin ===false)){
-		$("#You")[0].textContent = "You - $"+(bankroll += 2*parseInt($(".bet")[0].value));
-	} else if ((playerWin === false)&&(dealerWin===false))
-	$("#You")[0].textContent = "You - $"+(bankroll += parseInt($(".bet")[0].value))
-} else if (playerHand.length > 2){
-	$(".split").prop("disabled",true)
-	$(".double").prop("disabled",true)
-}
-});
+			$("#You")[0].textContent = "You - $"+(bankroll -= parseInt($(".bet")[0].value));
+			doDealerThings();
+			if ((playerWin === true)&&(dealerWin ===false)){
+				$("#You")[0].textContent = "You - $"+(bankroll += 2*parseInt($(".bet")[0].value));
+			} else if ((playerWin === false)&&(dealerWin===false)){
+				$("#You")[0].textContent = "You - $"+(bankroll += parseInt($(".bet")[0].value))
+	}else if (playerHand.length > 2){
+		$(".split").prop("disabled",true)
+		$(".double").prop("disabled",true)}
+}});
+
+//Event for Split button
+// $(".split").on("click",function(){
+// 	if (playerHand.length === 2){
+// 		playerSplitHand[0]=playerHand[1];
+// 		playerHand.pop();
+// 	}
+
+// });
 
 //Game Over refresh event
 $('#refresh').on('click',function(){
@@ -310,49 +340,6 @@ $('#close').on('click',function(){
 	$('#modal').toggle();
 	enableButtons();
 });
-
-// 	disableButtons();
-// 	$(".deal").prop("disabled",false)
-// 	$("#dealer-card").toggleClass("hidden"); //Show face down card
-// 	//set intervals?
-// 	$("#dealer-status")[0].textContent+="--Dealer reveals a "+dealerHand[0][1]+" of "+dealerHand[0][0];
-// 	//Dealer must hit on 16 or below or 'soft' 17
-// 	if((aceCheck(dealerHand)<=16)||(aceCheck(dealerHand)===17&&(dealerHand[0][1]==="Ace"||dealerHand[1][1]==="Ace"))){
-// 		do {
-// 			dealerHand.push(getACard());
-// 			newCard+=1;
-// 			var nextCard = $("<div>").attr({"id":"new-card-dealer","class":"four columns"});
-// //Space to write code to cards suits and #
-
-
-
-
-
-
-// 			$("#dealer").append(nextCard);
-// 			$("#dealer-status")[0].textContent+="--Dealer drew the " +dealerHand[dealerHand.length-1][1]+" of "+dealerHand[dealerHand.length-1][0]+". Dealer has: "+aceCheck(dealerHand)+".";
-// 			//If hand is between 17 and 21, dealer stops drawing cards
-// 			if (aceCheck(dealerHand)>17&&aceCheck(dealerHand)<=21){
-// 				winner();
-// 				moneyManage();
-// 				$(".deal").prop("disabled",false);
-// 				//Dealer busts over 21
-// 				} else if (aceCheck(dealerHand)>21){
-// 					twoDisplay("--Dealer BUSTS!");
-// 					winner();
-// 				//If still under 16, draw again	
-// 				} else{
-// 					$(".deal").prop("disabled",false);
-// 				}}
-// 			//Repeat 'do' and if/else if while hand is less than 17
-// 			while (aceCheck(dealerHand)<17);
-// 		//If starting hand over 17, do nothing.
-// 		}else if (aceCheck(dealerHand)>16&&aceCheck(dealerHand)<=21){
-// 				winner();
-// 				moneyManage();
-// 				$(".deal").prop("disabled",false);
-// 			}
-
 
 
 
