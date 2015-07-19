@@ -1,4 +1,10 @@
 console.log("Doc ready");
+	$(".player1").hide()
+	$(".player2").hide()
+	$(".dealer1").hide()
+	$(".dealer2").hide()
+	$("#dealer-status").hide()
+	$("#player-status").hide()
 
 /////////////////////////////////////   FUNCTION AND VARIABLE DECLARATIONS   ///////////////////////////////////
 var playerWin = false;//necessary?
@@ -151,12 +157,13 @@ if(total(hand)===21){
 	} else{
 	return total(hand)}
 }
+//Check for amount, if unable to meet minimum bet, GAME OVER
 var moneyManage = function(){
 	$("#You")[0].textContent="You - $" + bankroll
 	if (bankroll < 10){
 		$('#modal').toggle();
 		//Creates blank space in modal
-		$(".modal-content").empty();
+		$(".modal-content")[0].textContent="";
 		$('#close').remove();
 		//Creates a 'try again' button that refreshes the page
 		var refresh = $("<button>").attr("id","refresh")
@@ -180,11 +187,14 @@ var doDealerThings = function(){
 		do {
 			dealerHand.push(getACard());
 			newCard+=1;
+			setTimeout(function(){
 			var nextCard = $("<div>").attr({"id":"new-card-dealer","class":"four columns animated fadeInDown"});
 			nextCard.css("background-image",dealerHand[dealerHand.length-1][3]);
 			$("#dealer").append(nextCard);
 			$("#dealer-status")[0].textContent+="--Dealer drew the " +dealerHand[dealerHand.length-1][1]+" of "+dealerHand[dealerHand.length-1][0]+". Dealer has: "+aceCheck(dealerHand)+".";
+			}, 800);
 			//If hand is between 17 and 21, dealer stops drawing cards and evaluates
+			setTimeout(function(){
 			if (aceCheck(dealerHand)>=17&&aceCheck(dealerHand)<=21){
 				winner();
 				moneyManage();
@@ -196,7 +206,7 @@ var doDealerThings = function(){
 				//If still under 16, draw again	
 				} else{
 					$(".deal").prop("disabled",false);}
-				}
+				}, 800);}
 			//Repeat 'do' and if/else if while hand is less than 17
 			while (aceCheck(dealerHand)<17);
 		//If starting hand over 17, do nothing and evaluate
@@ -205,6 +215,7 @@ var doDealerThings = function(){
 				moneyManage();
 				$(".deal").prop("disabled",false);
 			}
+			
 };
 
 /////////////////////////////////////   EVENT LISTENERS AND GAME LOGIC   ///////////////////////////////////
@@ -230,10 +241,12 @@ if((parseInt($(".bet")[0].value)<10)||($(".bet")[0].value.length===0)||(isNum()=
 		$("#player-status")[0].textContent="You don't have that much in your bankroll"
 		} else{ //Run program as normal
 				//Simulate dealing cards
-				$(".player1").show()
-				$(".player2").show()
-				$(".dealer1").show()
-				$(".dealer2").show()
+				$(".player1").show();
+				$(".player2").show();
+				$(".dealer1").show();
+				$(".dealer2").show();
+				$("#dealer-status").show();
+				$("#player-status").show();
 				//Temporaryily remove bet from bank roll until hand is resolved
 				$("#You")[0].textContent = "You - $"+(bankroll -= parseInt($(".bet")[0].value));
 				//Hide dealers hole card
@@ -328,19 +341,11 @@ $(".double").on("click",function(){
 
 // });
 
-//Game Over refresh event
-$('#refresh').on('click',function(){
-    location.reload(true);
-});
 //Split option & Double Down option
 
 $('#close').on('click',function(){
 	$('#modal').toggle();
 	enableButtons();
-	$(".player1").hide()
-	$(".player2").hide()
-	$(".dealer1").hide()
-	$(".dealer2").hide()
 });
 
 

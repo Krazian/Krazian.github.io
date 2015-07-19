@@ -60,6 +60,12 @@ font-size:45px;
 color:#F00006;
 text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
+#the-dealer{
+	background-color: rgba(0,0,0,.5);
+	border-style: solid;
+	border-color: black;
+	border-width: 1px;
+}
 #dealer-card{
 	width: 156px;
 	height:225px;
@@ -128,6 +134,12 @@ font-family: 'Raleway', sans-serif;
 font-size:45px;
 color:#FFF4F3;
 text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+#You{
+	background-color: rgba(202,2,2,.5);
+	border-style: solid;
+	border-color: black;
+	border-width: 1px;
 }
 #player-card{
 	width: 156px;
