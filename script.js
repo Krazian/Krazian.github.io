@@ -131,7 +131,7 @@ var aceSearch = function(cards){
 		}
 //Change ace value from 11 to 1 if necessary
 var aceCheck = function(hand){
-	var grandTotal = total(hand);
+	grandTotal = total(hand);
 	//If blackjack, just return #
 if(total(hand)===21){
 	return grandTotal
@@ -141,17 +141,19 @@ if(total(hand)===21){
 		if (aceSearch(hand)===0){
 			return grandTotal
 			//If 0 or 1 ace, return value
-		} else if (aceSearch(hand)<2&&total(hand)<21){
+		} else if (aceSearch(hand)<2&&grandTotal<21){
 			return grandTotal
 			//If 1 or 2 aces, BUT total is more than 21, reduce by 10
-			} else if (aceSearch(hand)<=2&&total(hand)>21){  
+			} else if (aceSearch(hand)<=2&&grandTotal>21){  
 			return grandTotal -= 10 
-				} else if (aceSearch(hand)===2&&total(hand)<21){  
+				//If 2 aces, BUT total is less than 21
+				} else if (aceSearch(hand)===2&&grandTotal<21){  
 				return grandTotal -= 10
-					} else if (aceSearch(hand)>=2&&total(hand)<21){  
+					//If 2 or more aces, BUT total is less than 21
+					} else if (aceSearch(hand)>=2&&grandTotal<21){  
 					return grandTotal -= (10 * (aceSearch(hand)-1))
-					//If multiple aces, reduce by 10 per one less total ace.
-					} else if (aceSearch(hand)>2&&total(hand)>21){
+					//If more than 2 aces AND total over 21, reduce by 10 per one less total ace.
+					} else if (aceSearch(hand)>2&&grandTotal>21){
 						return grandTotal -= (10 * (aceSearch(hand)-1))
 						}
 		//All other hands less 12
@@ -180,7 +182,9 @@ var moneyManage = function(){
 var doDealerThings = function(){
 	disableButtons();
 	$(".deal").prop("disabled",false)
-	$("#dealer-card").toggleClass("hidden"); //Show face down card
+	$("#dealer-card").toggleClass("hidden");
+	$(".dealer1").css("background-image",dealerHand[0][3]);
+	 //Show face down card
 	$("#dealer-status")[0].textContent+="--Dealer reveals a "+dealerHand[0][1]+" of "+dealerHand[0][0]+". for a total of: "+aceCheck(dealerHand)+".";
 	//Dealer must hit on 16 or below or 'soft' 17
 	if((aceCheck(dealerHand)<=16)||((aceCheck(dealerHand)===17)&&(dealerHand[0][1]==="Ace"||dealerHand[1][1]==="Ace"))){
@@ -260,10 +264,21 @@ if((parseInt($(".bet")[0].value)<10)||($(".bet")[0].value.length===0)||(isNum()=
 				$(".player1").css("background-image",playerHand[0][3]);
 				$(".player2").css("background-image",playerHand[1][3]);
 				$(".dealer2").css("background-image",dealerHand[1][3]);
+				//Allow insurance
+				/*if(dealerHand[1][1]==="Ace"){
+					$(".insurance").prop("disabled",false)
+					$('.insurance').on('click',function(){
+						$("#You")[0].textContent = "You - $"+(bankroll -= parseInt($(".bet")[0].value/2));
+						$(".insurance").prop("disabled",true);
+						insurance = true;
+						doDealerThings();
+					});
+				}*/
 				//Blackjack for both
 				if (aceCheck(playerHand)===21 && aceCheck(dealerHand)===21){
 					twoDisplay("--Dealer reveals "+dealerHand[0][1]+" of "+dealerHand[0][0]+"."+" Blackjack!");
-					$("#dealer-card").toggleClass("hidden"); 
+					$("#dealer-card").toggleClass("hidden");
+					$(".dealer1").css("background-image",dealerHand[0][3]);
 					disableButtons();
 					moneyManage();
 					winner();
@@ -271,7 +286,8 @@ if((parseInt($(".bet")[0].value)<10)||($(".bet")[0].value.length===0)||(isNum()=
 					//Blackjack for dealer
 					} else if (aceCheck(dealerHand)===21){
 								twoDisplay("--Dealer reveals "+dealerHand[0][1]+" of "+dealerHand[0][0]+"."+" Blackjack!");
-								$("#dealer-card").toggleClass("hidden"); 
+								$("#dealer-card").toggleClass("hidden");
+								$(".dealer1").css("background-image",dealerHand[0][3]);
 								disableButtons();
 								moneyManage();
 								winner();
@@ -281,6 +297,7 @@ if((parseInt($(".bet")[0].value)<10)||($(".bet")[0].value.length===0)||(isNum()=
 								bankroll += (parseInt($(".bet")[0].value)/2)
 								twoDisplay("--Blackjack!");
 								$("#dealer-card").toggleClass("hidden"); 
+								$(".dealer1").css("background-image",dealerHand[0][3]);
 								disableButtons();
 								moneyManage();
 								winner();
@@ -309,6 +326,7 @@ $(".hit").on("click",function(){
 		$("#player-status")[0].textContent+="!";
 		disableButtons();
 		$(".stay").prop("disabled",false)
+		doDealerThings();
 	}
 });
 //Event for Stay button
