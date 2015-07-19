@@ -132,30 +132,39 @@ var aceSearch = function(cards){
 //Change ace value from 11 to 1 if necessary
 var aceCheck = function(hand){
 	grandTotal = total(hand);
+	tensCounter = 0;
 	//If blackjack, just return #
+	for (var i = 0; i <hand.length;i++){
+		if (hand[0][2]===10){
+			tensCounter++;
+		}
+	}
 if(total(hand)===21){
-	return grandTotal
+return grandTotal
 	  //Min value of hand w/ ace is 12 (A A)
 } else if (total(hand)>=12){
 	 	//If NO aces, return value
 		if (aceSearch(hand)===0){
-			return grandTotal
+		return grandTotal
 			//If 0 or 1 ace, return value
 		} else if (aceSearch(hand)<2&&grandTotal<21){
 			return grandTotal
-			//If 1 or 2 aces, BUT total is more than 21, reduce by 10
-			} else if (aceSearch(hand)<=2&&grandTotal>21){  
-			return grandTotal -= 10 
-				//If 2 aces, BUT total is less than 21
-				} else if (aceSearch(hand)===2&&grandTotal<21){  
-				return grandTotal -= 10
-					//If 2 or more aces, BUT total is less than 21
-					} else if (aceSearch(hand)>=2&&grandTotal<21){  
-					return grandTotal -= (10 * (aceSearch(hand)-1))
-					//If more than 2 aces AND total over 21, reduce by 10 per one less total ace.
-					} else if (aceSearch(hand)>2&&grandTotal>21){
-						return grandTotal -= (10 * (aceSearch(hand)-1))
-						}
+				//If 2 or more aces AND 1 or more 10 value cards,reduce by 10 per total aces.
+				} else if (aceSearch(hand)>=2&&tensCounter>0){
+					return grandTotal -=(10 * aceSearch(hand))
+				//If 1 or 2 aces, BUT total is more than 21, reduce by 10
+				} else if (aceSearch(hand)<=2&&grandTotal>21){  
+					return grandTotal -= 10 
+					//If 2 aces, BUT total is less than 21
+					} else if (aceSearch(hand)===2&&grandTotal<21){  
+						return grandTotal -= 10
+						//If 2 or more aces, BUT total is less than 21
+						} else if (aceSearch(hand)>=2&&grandTotal<21){  
+							return grandTotal -= (10 * (aceSearch(hand)-1))
+						//If more than 2 aces AND total over 21, reduce by 10 per one less total ace.
+						} else if (aceSearch(hand)>2&&grandTotal>21){
+							return grandTotal -= (10 * (aceSearch(hand)-1))
+							}
 		//All other hands less 12
 	} else{
 	return total(hand)}
