@@ -234,6 +234,7 @@ var doDealerThings = function(){
 
 /////////////////////////////////////   EVENT LISTENERS AND GAME LOGIC   ///////////////////////////////////
 //Event for Deal button
+$(".deal").on("click",function(){
 //Clears the screen of previously added divs
 for (var i = 0; i <= 11; i++){
 	$("#new-card-player").remove();
