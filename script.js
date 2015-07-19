@@ -180,21 +180,17 @@ var doDealerThings = function(){
 	disableButtons();
 	$(".deal").prop("disabled",false)
 	$("#dealer-card").toggleClass("hidden"); //Show face down card
-	//set intervals?
 	$("#dealer-status")[0].textContent+="--Dealer reveals a "+dealerHand[0][1]+" of "+dealerHand[0][0]+".";
 	//Dealer must hit on 16 or below or 'soft' 17
 	if((aceCheck(dealerHand)<=16)||((aceCheck(dealerHand)===17)&&(dealerHand[0][1]==="Ace"||dealerHand[1][1]==="Ace"))){
 		do {
 			dealerHand.push(getACard());
 			newCard+=1;
-			setTimeout(function(){
 			var nextCard = $("<div>").attr({"id":"new-card-dealer","class":"four columns animated fadeInDown"});
 			nextCard.css("background-image",dealerHand[dealerHand.length-1][3]);
 			$("#dealer").append(nextCard);
 			$("#dealer-status")[0].textContent+="--Dealer drew the " +dealerHand[dealerHand.length-1][1]+" of "+dealerHand[dealerHand.length-1][0]+". Dealer has: "+aceCheck(dealerHand)+".";
-			}, 800);
 			//If hand is between 17 and 21, dealer stops drawing cards and evaluates
-			setTimeout(function(){
 			if (aceCheck(dealerHand)>=17&&aceCheck(dealerHand)<=21){
 				winner();
 				moneyManage();
@@ -206,7 +202,7 @@ var doDealerThings = function(){
 				//If still under 16, draw again	
 				} else{
 					$(".deal").prop("disabled",false);}
-				}, 800);}
+				}
 			//Repeat 'do' and if/else if while hand is less than 17
 			while (aceCheck(dealerHand)<17);
 		//If starting hand over 17, do nothing and evaluate
@@ -214,14 +210,16 @@ var doDealerThings = function(){
 				winner();
 				moneyManage();
 				$(".deal").prop("disabled",false);
-			}
-			
+			}			
 };
 
 /////////////////////////////////////   EVENT LISTENERS AND GAME LOGIC   ///////////////////////////////////
 //Event for Deal button
 $(".deal").on("click",function(){
-
+	$(".player1").hide();
+	$(".player2").hide();
+	$(".dealer1").hide();
+	$(".dealer2").hide();
 //Clears the screen of previously added divs
 for (var i = 0; i <= 11; i++){
 	$("#new-card-player").remove();
@@ -279,12 +277,12 @@ if((parseInt($(".bet")[0].value)<10)||($(".bet")[0].value.length===0)||(isNum()=
 								$(".deal").prop("disabled",false)
 						//Blackjack for player
 						} else if (aceCheck(playerHand)===21){
-						bankroll += (parseInt($(".bet")[0].value)/2)
-						twoDisplay("--Blackjack!");
-						$("#dealer-card").toggleClass("hidden"); 
-						disableButtons();
-						moneyManage();
-						winner();
+								bankroll += (parseInt($(".bet")[0].value)/2)
+								twoDisplay("--Blackjack!");
+								$("#dealer-card").toggleClass("hidden"); 
+								disableButtons();
+								moneyManage();
+								winner();
 						$(".deal").prop("disabled",false)}
 				
 }});
