@@ -136,13 +136,17 @@ if(total(hand)===21){
 			//If 0 or 1 ace, return value
 		} else if (aceSearch(hand)<2&&total(hand)<21){
 			return grandTotal
-			//If 1 or 2 aces, BUT total is more that 21, reduce by 10
+			//If 1 or 2 aces, BUT total is more than 21, reduce by 10
 			} else if (aceSearch(hand)<=2&&total(hand)>21){  
-			return grandTotal -= 10  
-			//If multiple aces, reduce by 10 per one less total ace.
-			} else if (aceSearch(hand)>2&&total(hand)>21){
-				return grandTotal -= (10 * (aceSearch(hand)-1));
-				}
+			return grandTotal -= 10 
+				} else if (aceSearch(hand)===2&&total(hand)<21){  
+				return grandTotal -= 10
+					} else if (aceSearch(hand)>=2&&total(hand)<21){  
+					return grandTotal -= (10 * (aceSearch(hand)-1))
+					//If multiple aces, reduce by 10 per one less total ace.
+					} else if (aceSearch(hand)>2&&total(hand)>21){
+						return grandTotal -= (10 * (aceSearch(hand)-1))
+						}
 		//All other hands less 12
 	} else{
 	return total(hand)}
@@ -176,9 +180,8 @@ var doDealerThings = function(){
 		do {
 			dealerHand.push(getACard());
 			newCard+=1;
-			var nextCard = $("<div>").attr({"id":"new-card-dealer","class":"four columns"});
+			var nextCard = $("<div>").attr({"id":"new-card-dealer","class":"four columns animated fadeInDown"});
 			nextCard.css("background-image",dealerHand[dealerHand.length-1][3]);
-			nextCard.slideUp( 300 ).delay( 1000 ).fadeIn( 400 )
 			$("#dealer").append(nextCard);
 			$("#dealer-status")[0].textContent+="--Dealer drew the " +dealerHand[dealerHand.length-1][1]+" of "+dealerHand[dealerHand.length-1][0]+". Dealer has: "+aceCheck(dealerHand)+".";
 			//If hand is between 17 and 21, dealer stops drawing cards and evaluates
@@ -207,6 +210,7 @@ var doDealerThings = function(){
 /////////////////////////////////////   EVENT LISTENERS AND GAME LOGIC   ///////////////////////////////////
 //Event for Deal button
 $(".deal").on("click",function(){
+
 //Clears the screen of previously added divs
 for (var i = 0; i <= 11; i++){
 	$("#new-card-player").remove();
@@ -225,6 +229,11 @@ if((parseInt($(".bet")[0].value)<10)||($(".bet")[0].value.length===0)||(isNum()=
 	} else if ((parseInt($(".bet")[0].value))>bankroll){ //Prevent over bet
 		$("#player-status")[0].textContent="You don't have that much in your bankroll"
 		} else{ //Run program as normal
+				//Simulate dealing cards
+				$(".player1").show()
+				$(".player2").show()
+				$(".dealer1").show()
+				$(".dealer2").show()
 				//Temporaryily remove bet from bank roll until hand is resolved
 				$("#You")[0].textContent = "You - $"+(bankroll -= parseInt($(".bet")[0].value));
 				//Hide dealers hole card
@@ -272,7 +281,7 @@ $(".hit").on("click",function(){
 	playerHand.push(getACard());
 	newCard+=1;
 	$("#player-status")[0].textContent+="--You drew the " +playerHand[playerHand.length-1][1]+" of "+playerHand[playerHand.length-1][0]+". You've got a "+aceCheck(playerHand)+".";
-	var nextCard = $("<div>").attr({"id":"new-card-player","class":"four columns"});
+	var nextCard = $("<div>").attr({"id":"new-card-player","class":"four columns animated fadeInUp"});
 	nextCard.css("background-image",playerHand[playerHand.length-1][3]);
 	$("#player").append(nextCard);
 	if (aceCheck(playerHand) > 21){
@@ -328,6 +337,10 @@ $('#refresh').on('click',function(){
 $('#close').on('click',function(){
 	$('#modal').toggle();
 	enableButtons();
+	$(".player1").hide()
+	$(".player2").hide()
+	$(".dealer1").hide()
+	$(".dealer2").hide()
 });
 
 
