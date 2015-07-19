@@ -320,7 +320,6 @@ $(".stay").on("click",function(){
 //Event for Double Down button
 $(".double").on("click",function(){
 	if (playerHand.length === 2){
-			doDealerThings();
 			$(".dealer1").css("background-image",dealerHand[0][3]);
 			$("#You")[0].textContent = "You - $"+(bankroll -= parseInt($(".bet")[0].value));
 			playerHand.push(getACard());
@@ -329,7 +328,7 @@ $(".double").on("click",function(){
 			var nextCard = $("<div>").attr({"id":"new-card-player","class":"four columns animated fadeInUp"});
 			nextCard.css("background-image",playerHand[playerHand.length-1][3]);
 			$("#player").append(nextCard);
-			
+			doDealerThings();
 			if ((playerWin === true)&&(dealerWin ===false)){
 				$("#You")[0].textContent = "You - $"+(bankroll += 2*parseInt($(".bet")[0].value));
 			} else if ((playerWin === false)&&(dealerWin===false)){
