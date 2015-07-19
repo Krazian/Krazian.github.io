@@ -9,20 +9,21 @@ $("#You")[0].textContent+=bankroll
 
 //Every time dealCards is envoked, used deck is replaced with new deck.
 var dealCards = function(){
-deck = [
-[["Spades","King",10],["Spades","Queen",10],["Spades","Jack",10],["Spades","10",10],["Spades","9",9],["Spades","8",8],["Spades","7",7],["Spades","6",6],["Spades","5",5],["Spades","4",4],["Spades","3",3],["Spades","2",2],["Spades","Ace",11]],
-[["Hearts","King",10],["Hearts","Queen",10],["Hearts","Jack",10],["Hearts","10",10],["Hearts","9",9],["Hearts","8",8],["Hearts","7",7],["Hearts","6",6],["Hearts","5",5],["Hearts","4",4],["Hearts","3",3],["Hearts","2",2],["Hearts","Ace",11]],
-[["Clubs","King",10],["Clubs","Queen",10],["Clubs","Jack",10],["Clubs","10",10],["Clubs","9",9],["Clubs","8",8],["Clubs","7",7],["Clubs","6",6],["Clubs","5",5],["Clubs","4",4],["Clubs","3",3],["Clubs","2",2],["Clubs","Ace",11]],
-[["Diamonds","King",10],["Diamonds","Queen",10],["Diamonds","Jack",10],["Diamonds","10",10],["Diamonds","9",9],["Diamonds","8",8],["Diamonds","7",7],["Diamonds","6",6],["Diamonds","5",5],["Diamonds","4",4],["Diamonds","3",3],["Diamonds","2",2],["Diamonds","Ace",11]]] ;
-playerHand = [];
-playerSplitHand =[]
-dealerHand = [];
-playerHand.push(getACard());
-dealerHand.push(getACard());
-playerHand.push(getACard());
-dealerHand.push(getACard());
-console.log(playerHand);
-console.log(dealerHand);
+	deck = [
+	[["Spades","King",10,"url('Playing Cards/king_of_spades2.png')"],["Spades","Queen",10,"url('Playing Cards/queen_of_spades2.png')"],["Spades","Jack",10,"url('Playing Cards/jack_of_spades2.png')"],["Spades","10",10,"url('Playing Cards/10_of_spades.png')"],["Spades","9",9,"url('Playing Cards/9_of_spades.png')"],["Spades","8",8,"url('Playing Cards/8_of_spades.png')"],["Spades","7",7,"url('Playing Cards/7_of_spades.png')"],["Spades","6",6,"url('Playing Cards/6_of_spades.png')"],["Spades","5",5,"url('Playing Cards/5_of_spades.png')"],["Spades","4",4,"url('Playing Cards/4_of_spades.png')"],["Spades","3",3,"url('Playing Cards/3_of_spades.png')"],["Spades","2",2,"url('Playing Cards/2_of_spades.png')"],["Spades","Ace",11,"url('Playing Cards/ace_of_spades2.png')"]],
+	[["Hearts","King",10,"url('Playing Cards/king_of_hearts2.png')"],["Hearts","Queen",10,"url('Playing Cards/queen_of_hearts2.png')"],["Hearts","Jack",10,"url('Playing Cards/jack_of_hearts2.png')"],["Hearts","10",10,"url('Playing Cards/10_of_hearts.png')"],["Hearts","9",9,"url('Playing Cards/9_of_hearts.png')"],["Hearts","8",8,"url('Playing Cards/8_of_hearts.png')"],["Hearts","7",7,"url('Playing Cards/7_of_hearts.png')"],["Hearts","6",6,"url('Playing Cards/6_of_hearts.png')"],["Hearts","5",5,"url('Playing Cards/5_of_hearts.png')"],["Hearts","4",4,"url('Playing Cards/4_of_hearts.png')"],["Hearts","3",3,"url('Playing Cards/3_of_hearts.png')"],["Hearts","2",2,"url('Playing Cards/2_of_hearts.png')"],["Hearts","Ace",11,"url('Playing Cards/ace_of_hearts.png')"]],
+	[["Clubs","King",10,"url('Playing Cards/king_of_clubs2.png')"],["Clubs","Queen",10,"url('Playing Cards/queen_of_clubs2.png')"],["Clubs","Jack",10,"url('Playing Cards/jack_of_clubs2.png')"],["Clubs","10",10,"url('Playing Cards/10_of_clubs.png')"],["Clubs","9",9,"url('Playing Cards/9_of_clubs.png')"],["Clubs","8",8,"url('Playing Cards/8_of_clubs.png')"],["Clubs","7",7,"url('Playing Cards/7_of_clubs.png')"],["Clubs","6",6,"url('Playing Cards/6_of_clubs.png')"],["Clubs","5",5,"url('Playing Cards/5_of_clubs.png')"],["Clubs","4",4,"url('Playing Cards/4_of_clubs.png')"],["Clubs","3",3,"url('Playing Cards/3_of_clubs.png')"],["Clubs","2",2,"url('Playing Cards/2_of_clubs.png')"],["Clubs","Ace",11,"url('Playing Cards/ace_of_clubs.png')"]],
+	[["Diamonds","King",10,"url('Playing Cards/king_of_diamonds2.png')"],["Diamonds","Queen",10,"url('Playing Cards/queen_of_diamonds2.png')"],["Diamonds","Jack",10,"url('Playing Cards/jack_of_diamonds2.png')"],["Diamonds","10",10,"url('Playing Cards/10_of_diamonds.png')"],["Diamonds","9",9,"url('Playing Cards/9_of_diamonds.png')"],["Diamonds","8",8,"url('Playing Cards/8_of_diamonds.png')"],["Diamonds","7",7,"url('Playing Cards/7_of_diamonds.png')"],["Diamonds","6",6,"url('Playing Cards/6_of_diamonds.png')"],["Diamonds","5",5,"url('Playing Cards/5_of_diamonds.png')"],["Diamonds","4",4,"url('Playing Cards/4_of_diamonds.png')"],["Diamonds","3",3,"url('Playing Cards/3_of_diamonds.png')"],["Diamonds","2",2,"url('Playing Cards/2_of_diamonds.png')"],["Diamonds","Ace",11,"url('Playing Cards/ace_of_diamonds.png')"]]
+	];
+	playerHand = [];
+	playerSplitHand =[];
+	dealerHand = [];
+	playerHand.push(getACard());
+	dealerHand.push(getACard());
+	playerHand.push(getACard());
+	dealerHand.push(getACard());
+	console.log(playerHand);
+	console.log(dealerHand);
 };
 
 //randomly selects suit and value then removes from master deck
@@ -61,27 +62,27 @@ var twoDisplay = function(string){
 //Calculates and determines win/lose/push AND handles bankroll calculations
 var winner = function(){
 	//No bust and player has higher hand
-	if((aceCheck(playerHand)>aceCheck(dealerHand)&&(aceCheck(playerHand)<=21))){
+	if((aceCheck(playerHand)>aceCheck(dealerHand))&&(aceCheck(playerHand)<=21)){
 		twoDisplay("--You've got: "+aceCheck(playerHand)+" and the dealer has: "+aceCheck(dealerHand)+". YOU WIN!");
 		bankroll += 2*parseInt($(".bet")[0].value);
 		$("#You")[0].textContent = "You - $"+(bankroll)
 		playerWin = true;
 		dealerWin = false;
 		//Player has lower hand, but dealer busts
-	} else if((aceCheck(playerHand)<aceCheck(dealerHand)&&(aceCheck(dealerHand)>21))){
+	} else if((aceCheck(playerHand)<aceCheck(dealerHand))&&(aceCheck(dealerHand)>21)){
 		twoDisplay("--You've got: "+aceCheck(playerHand)+" and the dealer has: "+aceCheck(dealerHand)+". YOU WIN!");
 		bankroll += 2*parseInt($(".bet")[0].value);
 		$("#You")[0].textContent = "You - $"+(bankroll)
 		playerWin = true;
 		dealerWin = false;
 		//No bust and dealer has higher hand
-		}else if ((aceCheck(dealerHand)>aceCheck(playerHand)&&(aceCheck(dealerHand)<=21))){
+		}else if ((aceCheck(dealerHand)>aceCheck(playerHand))&&(aceCheck(dealerHand)<=21)){
 			twoDisplay("--You've got: "+aceCheck(playerHand)+" and the dealer has: "+aceCheck(dealerHand)+". You lose...");
 			dealerWin = true;
 			playerWin = false;
 
 			//Dealer has lower hand, but player busts
-			}else if ((aceCheck(dealerHand)<aceCheck(playerHand)&&(aceCheck(playerHand)>21))){
+			}else if ((aceCheck(dealerHand)<aceCheck(playerHand))&&(aceCheck(playerHand)>21)){
 			twoDisplay("--You've got: "+aceCheck(playerHand)+" and the dealer has: "+aceCheck(dealerHand)+". You lose...");
 			dealerWin = true;
 			playerWin = false;
@@ -144,8 +145,7 @@ if(total(hand)===21){
 				}
 		//All other hands less 12
 	} else{
-	return total(hand)
-	}
+	return total(hand)}
 }
 var moneyManage = function(){
 	$("#You")[0].textContent="You - $" + bankroll
@@ -177,13 +177,8 @@ var doDealerThings = function(){
 			dealerHand.push(getACard());
 			newCard+=1;
 			var nextCard = $("<div>").attr({"id":"new-card-dealer","class":"four columns"});
-//Space to write code to cards suits and #
-			
-
-
-
-
-
+			nextCard.css("background-image",dealerHand[dealerHand.length-1][3]);
+			nextCard.slideUp( 300 ).delay( 1000 ).fadeIn( 400 )
 			$("#dealer").append(nextCard);
 			$("#dealer-status")[0].textContent+="--Dealer drew the " +dealerHand[dealerHand.length-1][1]+" of "+dealerHand[dealerHand.length-1][0]+". Dealer has: "+aceCheck(dealerHand)+".";
 			//If hand is between 17 and 21, dealer stops drawing cards and evaluates
@@ -197,8 +192,8 @@ var doDealerThings = function(){
 					winner();
 				//If still under 16, draw again	
 				} else{
-					$(".deal").prop("disabled",false);
-				}}
+					$(".deal").prop("disabled",false);}
+				}
 			//Repeat 'do' and if/else if while hand is less than 17
 			while (aceCheck(dealerHand)<17);
 		//If starting hand over 17, do nothing and evaluate
@@ -209,29 +204,6 @@ var doDealerThings = function(){
 			}
 };
 
-/*var suitImage = function(suit) {
-	switch (suit){
-		case "Spades":
-			var pic = $("<div>").attr("class","suit-pic")
-			$(".suit-pic").css("background-image","url('http://www.imageno.com/thumbs/20150718/r10svtl1ozd5.jpg')");
-			break;
-			//
-		case "Hearts":
-			var pic = $("<div>").attr("class","suit-pic")
-			$(".suit-pic").css("background-image","url('http://www.imageno.com/thumbs/20150718/2beuexri99km.jpg')");
-			break;
-		case "Clubs":
-			var pic = $("<div>").attr("class","suit-pic")
-			$(".suit-pic").css("background-image","url('http://www.imageno.com/thumbs/20150718/dmnyqck6oq6o.jpg')");
-			break;
-		case "Diamonds":
-			var pic = $("<div>").attr("class","suit-pic")
-			$(".suit-pic").css("background-image","url('http://www.imageno.com/thumbs/20150718/ts36l7tbj6wi.jpg')");
-			break;
-	}
-	return pic
-}*/
-
 /////////////////////////////////////   EVENT LISTENERS AND GAME LOGIC   ///////////////////////////////////
 //Event for Deal button
 $(".deal").on("click",function(){
@@ -240,21 +212,33 @@ for (var i = 0; i <= 11; i++){
 	$("#new-card-player").remove();
 	$("#new-card-dealer").remove();
 	};
-//parameters for betting
-if(parseInt($(".bet")[0].value)<10){ //Min 10 dollar bet
+//Parameters for betting
+//Checks for letters in the input field
+var isNum = function(){
+	var num = ["1","2","3","4","5","6","7","8","9","0"];
+	for (var x = 0;x<($(".bet").val().length);x++){
+		if (num.indexOf($(".bet").val()[x])===-1){
+			return false}}};
+//Mandatory bet of at least 10
+if((parseInt($(".bet")[0].value)<10)||($(".bet")[0].value.length===0)||(isNum()===false)){ 
 	$("#player-status")[0].textContent="You need to make a bet of at least $10"
 	} else if ((parseInt($(".bet")[0].value))>bankroll){ //Prevent over bet
 		$("#player-status")[0].textContent="You don't have that much in your bankroll"
 		} else{ //Run program as normal
 				//Temporaryily remove bet from bank roll until hand is resolved
 				$("#You")[0].textContent = "You - $"+(bankroll -= parseInt($(".bet")[0].value));
-				$("#dealer-card").addClass("hidden");
+				//Hide dealers hole card
+				$("#dealer-card").toggleClass("hidden")
 				$(".deal").prop("disabled",true);
 				dealCards();
 				enableButtons();
 				//Display starting hand
 				$("#player-status")[0].textContent="You've got the "+playerHand[0][1]+" of "+playerHand[0][0]+" and the "+playerHand[1][1]+" of "+playerHand[1][0]+ " for a total of "+aceCheck(playerHand)+".";
 				$("#dealer-status")[0].textContent="Dealer is showing a "+dealerHand[1][1]+" of "+dealerHand[1][0]+".";
+				//Give cards images
+				$(".player1").css("background-image",playerHand[0][3]);
+				$(".player2").css("background-image",playerHand[1][3]);
+				$(".dealer2").css("background-image",dealerHand[1][3]);
 				//Blackjack for both
 				if (aceCheck(playerHand)===21 && aceCheck(dealerHand)===21){
 					twoDisplay("--Dealer reveals "+dealerHand[0][1]+" of "+dealerHand[0][0]+"."+" Blackjack!");
@@ -289,10 +273,13 @@ $(".hit").on("click",function(){
 	newCard+=1;
 	$("#player-status")[0].textContent+="--You drew the " +playerHand[playerHand.length-1][1]+" of "+playerHand[playerHand.length-1][0]+". You've got a "+aceCheck(playerHand)+".";
 	var nextCard = $("<div>").attr({"id":"new-card-player","class":"four columns"});
-//Space to write code to cards suits and #
+	nextCard.css("background-image",playerHand[playerHand.length-1][3]);
 	$("#player").append(nextCard);
 	if (aceCheck(playerHand) > 21){
 		$("#player-status")[0].textContent+= "--BUSTED!";
+		$(".dealer1").css("background-image",dealerHand[0][3]);
+		$("#dealer-card").toggleClass("hidden");
+		$("#dealer-status")[0].textContent+="--Dealer reveals a "+dealerHand[0][1]+" of "+dealerHand[0][0]+".";
 		disableButtons();
 		moneyManage();
 		$(".deal").prop("disabled",false)
@@ -305,7 +292,8 @@ $(".hit").on("click",function(){
 });
 //Event for Stay button
 $(".stay").on("click",function(){
-doDealerThings();
+	$(".dealer1").css("background-image",dealerHand[0][3]);
+	doDealerThings();
 });
 
 //Event for Double Down button

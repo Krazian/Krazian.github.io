@@ -42,7 +42,7 @@ h2{
 	width:300px;
 }
 #new-card-player{
-	width: 150px;
+	width: 156px;
 	height:225px;
 	border-radius: 15px;
 	border-style: solid;
@@ -61,7 +61,7 @@ color:#F00006;
 text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 #dealer-card{
-	width: 150px;
+	width: 156px;
 	height:225px;
 	border-radius: 15px;
 	border-style: solid;
@@ -72,29 +72,44 @@ text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 	position:relative;
 }
 .hidden{
-	background-image: url("http://hydra-media.cursecdn.com/hearthstone.gamepedia.com/thumb/f/fa/Card_back-Samsung_Galaxy_Gifts.png/150px-Card_back-Samsung_Galaxy_Gifts.png?version=4c0f079e9fd32ffc4a1295ff9c1fef27");
+
+	background-image: url("http://i.imgur.com/SAwNxk2.png")!important;
 	background-size: cover;
 }
 #new-card-dealer{
-	width: 150px;
+	width: 156px;
 	height:225px;
 	border-radius: 15px;
 	border-style: solid;
 	border-color: black;
 	border-width: 1px;
-	background-color: white;
+	background-size:cover;
 	display: inline-block;
 	position:relative;
 }
-.suit-pic{
-	position:relative;
-	margin:auto;
+.player1{
+	background-size:cover;
+}
+.player2{
+	background-size:cover;
+}
+.dealer1{
+	background-size:cover;
 }
 .dealer2{
-	height:100%;
-  width:100%;
+	background-size:cover;
 }
-
+#new-card-player{
+	width: 156px;
+	height:225px;
+	border-radius: 15px;
+	border-style: solid;
+	border-color: black;
+	border-width: 1px;
+	background-size: cover;
+	display: inline-block;
+	position:relative;
+}
 #dealer-status{
 	position:relative;
 	display:inline-block;
@@ -115,7 +130,7 @@ color:#FFF4F3;
 text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 #player-card{
-	width: 150px;
+	width: 156px;
 	height:225px;
 	border-radius: 15px;
 	border-style: solid;
