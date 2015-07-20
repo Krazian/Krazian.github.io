@@ -24,7 +24,7 @@ var dealCards = function(){
 	[["Diamonds","King",10,"url('Playing Cards/king_of_diamonds2.png')"],["Diamonds","Queen",10,"url('Playing Cards/queen_of_diamonds2.png')"],["Diamonds","Jack",10,"url('Playing Cards/jack_of_diamonds2.png')"],["Diamonds","10",10,"url('Playing Cards/10_of_diamonds.png')"],["Diamonds","9",9,"url('Playing Cards/9_of_diamonds.png')"],["Diamonds","8",8,"url('Playing Cards/8_of_diamonds.png')"],["Diamonds","7",7,"url('Playing Cards/7_of_diamonds.png')"],["Diamonds","6",6,"url('Playing Cards/6_of_diamonds.png')"],["Diamonds","5",5,"url('Playing Cards/5_of_diamonds.png')"],["Diamonds","4",4,"url('Playing Cards/4_of_diamonds.png')"],["Diamonds","3",3,"url('Playing Cards/3_of_diamonds.png')"],["Diamonds","2",2,"url('Playing Cards/2_of_diamonds.png')"],["Diamonds","Ace",11,"url('Playing Cards/ace_of_diamonds.png')"]]
 	];
 	playerHand = [];
-	playerSplitHand =[];
+	splitHand =[];
 	dealerHand = [];
 	playerHand.push(getACard());
 	dealerHand.push(getACard());
@@ -227,6 +227,7 @@ var doDealerThings = function(){
 };
 
 /////////////////////////////////////   EVENT LISTENERS AND GAME LOGIC   ///////////////////////////////////
+
 //Event for Deal button
 $(".deal").on("click",function(){
 	$("#player-split").hide();
@@ -274,7 +275,7 @@ if((parseInt($(".bet")[0].value)<10)||($(".bet")[0].value.length===0)||(isNum()=
 			//Give cards images
 			$(".player1").css("background-image",playerHand[0][3]);
 			$(".player2").css("background-image",playerHand[1][3]);
-			$(".dealer2").css("background-image",dealerHand[1][3]);}
+			$(".dealer2").css("background-image",dealerHand[1][3]);
 			//Allow insurance
 
 			//Blackjack for both
@@ -308,7 +309,7 @@ if((parseInt($(".bet")[0].value)<10)||($(".bet")[0].value.length===0)||(isNum()=
 							winner();
 							$(".bet").prop("disabled",false);
 							$(".deal").prop("disabled",false);}
-							});
+							}});
 
 //Event for Hit button
 $(".hit").on("click",function(){
@@ -373,15 +374,16 @@ $(".double").on("click",function(){
 $(".split").on("click",function(){
 	if (playerHand.length === 2&&playerHand[0][1]===playerHand[1][1]){
 		$("#player-split").show();
-		playerSplitHand[0]=playerHand[1];
-		playerSplitHand.push(getACard())
-		$(".player1split").css("background-image",playerSplitHand[0][3]);
+		splitHand[0]=playerHand[1];
+		splitHand.push(getACard())
+		$(".player1split").css("background-image",splitHand[0][3]);
 		$("#player-split").append($(".player1split"))
-		$(".player2split").css("background-image",playerSplitHand[1][3]);
+		$(".player2split").css("background-image",splitHand[1][3]);
 		$("#player-split").append($(".player2split"))
 		playerHand.pop();
 		playerHand.push(getACard());
 		$(".player2").css("background-image",playerHand[1][3])
+		$("#player-status")[0].textContent="You have the " +splitHand[0][1]+" of "+splitHand[0][0]+" and the "+splitHand[1][1]+" of "+splitHand[1][0]+" in one hand with a total of "+aceCheck(splitHand)+" and another hand with the " +playerHand[0][1]+" of "+playerHand[0][0]+" and the "+playerHand[1][1]+" of "+playerHand[1][0]+" for a total of "+aceCheck(playerHand)+".";
 	}
 });
 
