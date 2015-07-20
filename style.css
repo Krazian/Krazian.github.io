@@ -1,16 +1,22 @@
 body{
-	background-image:url("http://www.threadsofgreenfabrics.com/shop/images/CR527.jpg");
+	background-image:url("http://presentcreative.com/ios/wp-content/uploads/2011/07/FeltBackground.png");
 	background-size: cover;
+}
+#header{
 }
 #bj-header{
 	background-image:url("http://www.muratkaya.com.tr/wp-content/uploads/2011/06/blackjackBanner.jpg");
 	width:678px;
 	height:160px;
-	margin: 0px 158px 0px 50px;
-	border-radius:5px;
+	margin: 10px 158px 0px 50px;
+	border-radius:9px;
 	color:#000000;
 	text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 	text-indent: 20px;
+}
+h2{
+	color:white;
+	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 #modal{
 	top:0;
@@ -22,6 +28,7 @@ body{
 	background-color: rgba(120,120,120,.8);
 }
 .modal-content{
+	margin-top:8em;
 	text-align:center;
 }
 .modal-body{
@@ -34,10 +41,6 @@ body{
 	color:#000000;
 	text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 }
-h2{
-	color:white;
-	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-}
 .start{
 	font-size:2em;
 	text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
@@ -48,26 +51,16 @@ h2{
 #refresh{
 	width:300px;
 }
-#new-card-player{
-	width: 156px;
-	height:225px;
-	border-radius: 15px;
-	border-style: solid;
-	border-color: black;
-	border-width: 1px;
-	background-color: white;
-	display: inline-block;
-	position:relative;
-}
 #dealer{
-margin-top:1em;
-width:800px;
-font-family: 'Raleway', sans-serif;
-font-size:45px;
-color:#F00006;
-text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+	margin-top:1em;
+	width:800px;
+	font-family: 'Raleway', sans-serif;
+	font-size:45px;
+	color:#F00006;
+	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 #the-dealer{
+	padding-left: 10px;
 	background-color: rgba(0,0,0,.5);
 	border-style: solid;
 	border-color: black;
@@ -86,7 +79,6 @@ text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 	position:relative;
 }
 .hidden{
-
 	background-image: url("http://i.imgur.com/SAwNxk2.png")!important;
 	background-size: cover;
 }
@@ -101,17 +93,6 @@ text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 	display: inline-block;
 	position:relative;
 }
-#new-card-player{
-	width: 156px;
-	height:225px;
-	border-radius: 15px;
-	border-style: solid;
-	border-color: black;
-	border-width: 1px;
-	background-size: cover;
-	display: inline-block;
-	position:relative;
-}
 #dealer-status{
 	position:relative;
 	display:inline-block;
@@ -123,36 +104,16 @@ text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 	text-shadow: 0px 0 black, 0 0px black, 0px 0 black, 0 0px black;
 }
 #player{
-margin-top:1em;
-margin-bottom:3em;
-width:800px;
-font-family: 'Raleway', sans-serif;
-font-size:45px;
-color:#FFF4F3;
-text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-}
-#player-split{
-margin-top:1em;
-margin-bottom:3em;
-width:800px;
-font-family: 'Raleway', sans-serif;
-font-size:45px;
-color:#FFF4F3;
-text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-}
-#new-split-card{
-	width: 156px;
-	height:225px;
-	border-radius: 15px;
-	border-style: solid;
-	border-color: black;
-	border-width: 1px;
-	background-size:cover;
-	background-color: white;
-	display: inline-block;
-	position:relative;
+	margin-top:1em;
+	margin-bottom:3em;
+	width:800px;
+	font-family: 'Raleway', sans-serif;
+	font-size:45px;
+	color:#FFF4F3;
+	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 #You{
+	padding-left: 10px;
 	background-color: rgba(202,2,2,.5);
 	border-style: solid;
 	border-color: black;
@@ -181,11 +142,44 @@ text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 	text-shadow: 0px 0 black, 0 0px black, 0px 0 black, 0 0px black;
 	overflow:auto;
 }
+#new-card-player{
+	width: 156px;
+	height:225px;
+	border-radius: 15px;
+	border-style: solid;
+	border-color: black;
+	border-width: 1px;
+	background-size: cover;
+	display: inline-block;
+	position:relative;
+}
+#player-split{
+	margin-top:1em;
+	margin-bottom:3em;
+	width:800px;
+	font-family: 'Raleway', sans-serif;
+	font-size:45px;
+	color:#FFF4F3;
+	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+#new-split-card{
+	width: 156px;
+	height:225px;
+	border-radius: 15px;
+	border-style: solid;
+	border-color: black;
+	border-width: 1px;
+	background-size:cover;
+	background-color: white;
+	display: inline-block;
+	position:relative;
+}
 .options{
-bottom:0;
-margin-top:10px;
-position:fixed;
-text-align: left;
+	bottom:0;
+	margin-top:10px;
+	margin-left: 1.5em;
+	position:fixed;
+	text-align: left;
 }
 button{
 	font-family: 'Raleway', sans-serif;
@@ -209,19 +203,19 @@ button{
 	float:left;
 	color:#FFFF00;
 	font-size:20px;
-	margin-top:12px;
+	margin:14px 3px 0px 0px;
 }
 
 
 /*HELPER STUFF*/
 .clearfix:after {
-     visibility: hidden;
-     display: block;
-     font-size: 0;
-     content: " ";
-     clear: both;
-     height: 0;
-     }
+	visibility: hidden;
+	display: block;
+	font-size: 0;
+	content: " ";
+	clear: both;
+	height: 0;
+	}
 .clearfix { display: inline-block; }
 /* start commented backslash hack \*/
 * html .clearfix { height: 1%; }
