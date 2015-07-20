@@ -27,6 +27,13 @@ body{
 .modal-body{
 	text-align:center;
 }
+.game-over{
+	margin-top:8em;
+	font-size:30px;
+	text-align:center;
+	color:#000000;
+	text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+}
 h2{
 	color:white;
 	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
