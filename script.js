@@ -10,6 +10,7 @@ console.log("Doc ready");
 
 /////////////////////////////////////   FUNCTION AND VARIABLE DECLARATIONS   ///////////////////////////////////
 var playerWin = false;
+var splitWin = false;
 var dealerWin = false;
 var insurance = false
 var newCard = 0;
@@ -70,8 +71,38 @@ var twoDisplay = function(string){
 var winner = function(){
 	//If there is a split hand
 	if (splitHand.length !==0){
-
-	}
+			if((aceCheck(splitHand)>aceCheck(dealerHand))&&(aceCheck(splitHand)<=21)){
+		twoDisplay("--You've got: "+aceCheck(splitHand)+" and the dealer has: "+aceCheck(dealerHand)+". SPLIT WINS!");
+		bankroll += 2*parseInt($(".bet")[0].value);
+		$("#You")[0].textContent = "You - $"+(bankroll)
+		splitWin = true;
+		dealerWin = false;
+		//Player has lower hand, but dealer busts
+	} else if((aceCheck(splitHand)<aceCheck(dealerHand))&&(aceCheck(dealerHand)>21)){
+			twoDisplay("--You've got: "+aceCheck(splitHand)+" and the dealer has: "+aceCheck(dealerHand)+". SPLIT WINS!");
+			bankroll += 2*parseInt($(".bet")[0].value);
+			$("#You")[0].textContent = "You - $"+(bankroll)
+			splitWin = true;
+			dealerWin = false;
+		//No bust and dealer has higher hand
+		} else if ((aceCheck(dealerHand)>aceCheck(splitHand))&&(aceCheck(dealerHand)<=21)){
+				twoDisplay("--You've got: "+aceCheck(splitHand)+" and the dealer has: "+aceCheck(dealerHand)+". Split loses...");
+				dealerWin = true;
+				splitWin = false;
+			//Dealer has lower hand, but player busts
+			} else if ((aceCheck(dealerHand)<aceCheck(splitHand))&&(aceCheck(splitHand)>21)){
+					twoDisplay("--You've got: "+aceCheck(splitHand)+" and the dealer has: "+aceCheck(dealerHand)+". Split loses...");
+					dealerWin = true;
+					splitWin = false;
+				//No busts, both players value equal
+				} else if (aceCheck(splitHand)===aceCheck(dealerHand)){
+						twoDisplay("--You've got: "+aceCheck(splitHand)+" and the dealer has: "+aceCheck(dealerHand)+". Split is a push.");
+						bankroll += parseInt($(".bet")[0].value);
+						$("#You")[0].textContent = "You - $"+(bankroll)
+						dealerWin = false;
+						splitWin = false;
+						}}
+	//If no split, lines 74 - 104 doesn't run and goes straight to here
 	//No bust and player has higher hand
 	if((aceCheck(playerHand)>aceCheck(dealerHand))&&(aceCheck(playerHand)<=21)){
 		twoDisplay("--You've got: "+aceCheck(playerHand)+" and the dealer has: "+aceCheck(dealerHand)+". YOU WIN!");
@@ -239,6 +270,7 @@ $(".deal").on("click",function(){
 for (var i = 0; i <= 11; i++){
 	$("#new-card-player").remove();
 	$("#new-card-dealer").remove();
+	$("#new-split-card").remove();
 	};
 //Parameters for betting
 //Checks for letters in the input field
@@ -250,8 +282,8 @@ var isNum = function(){
 //Mandatory bet of at least 10
 if((parseInt($(".bet")[0].value)<10)||($(".bet")[0].value.length===0)||(isNum()===false)){ 
 	$("#player-status")[0].textContent="You need to make a bet of at least $10"
-	} else if ((parseInt($(".bet")[0].value))>bankroll){ //Prevent over bet
-		$("#player-status")[0].textContent="You don't have that much in your bankroll"
+ } else if ((parseInt($(".bet")[0].value))>bankroll){ //Prevent over bet
+		 $("#player-status")[0].textContent="You don't have that much in your bankroll"
 		//Run program as normal
 		} else{ 
 			//Simulate dealing cards
@@ -276,8 +308,6 @@ if((parseInt($(".bet")[0].value)<10)||($(".bet")[0].value.length===0)||(isNum()=
 			$(".player1").css("background-image",playerHand[0][3]);
 			$(".player2").css("background-image",playerHand[1][3]);
 			$(".dealer2").css("background-image",dealerHand[1][3]);
-			//Allow insurance
-
 			//Blackjack for both
 			if (aceCheck(playerHand)===21 && aceCheck(dealerHand)===21){
 				twoDisplay("--Dealer reveals "+dealerHand[0][1]+" of "+dealerHand[0][0]+"."+" Blackjack!");
@@ -310,7 +340,6 @@ if((parseInt($(".bet")[0].value)<10)||($(".bet")[0].value.length===0)||(isNum()=
 							$(".bet").prop("disabled",false);
 							$(".deal").prop("disabled",false);}
 							}});
-
 //Event for Hit button
 $(".hit").on("click",function(){
 	//In the case of a split possibility
@@ -324,35 +353,37 @@ $(".hit").on("click",function(){
 		if (aceCheck(splitHand) > 21){
 			$("#player-status")[0].textContent+= "--BUSTED!";
 			splitDone = true;
-		  } else if (aceCheck(playerHand) === 21){
+		  } else if (aceCheck(splitHand) === 21){
 					$("#player-status")[0].textContent+="!";
 					$(".stay").prop("disabled",false)
-					splitDone = true}
-		}//Normal gameplay code
-		else{
-			playerHand.push(getACard());
-			newCard+=1;
-			$("#player-status")[0].textContent+="--You drew the " +playerHand[playerHand.length-1][1]+" of "+playerHand[playerHand.length-1][0]+". You've got a "+aceCheck(playerHand)+".";
-			var nextCard = $("<div>").attr({"id":"new-card-player","class":"four columns animated fadeInUp"});
-			nextCard.css("background-image",playerHand[playerHand.length-1][3]);
-			$("#player").append(nextCard);
-			if (aceCheck(playerHand) > 21){
-				$("#player-status")[0].textContent+= "--BUSTED!";
-				$(".dealer1").css("background-image",dealerHand[0][3]);
-				$("#dealer-card").toggleClass("hidden");
-				$("#dealer-status")[0].textContent+="--Dealer reveals a "+dealerHand[0][1]+" of "+dealerHand[0][0]+".";
-				disableButtons();
-				moneyManage();
-				$(".bet").prop("disabled",false);
-				$(".deal").prop("disabled",false);
-			}
-			else if (aceCheck(playerHand) === 21){
-				$("#player-status")[0].textContent+="!";
-				disableButtons();
-				$(".stay").prop("disabled",false)
-				doDealerThings();
-			}
-		}});
+					splitDone = true}}
+		
+		//Normal gameplay code
+		} else{
+				playerHand.push(getACard());
+				newCard+=1;
+				$("#player-status")[0].textContent+="--You drew the " +playerHand[playerHand.length-1][1]+" of "+playerHand[playerHand.length-1][0]+". You've got a "+aceCheck(playerHand)+".";
+				var nextCard = $("<div>").attr({"id":"new-card-player","class":"four columns animated fadeInUp"});
+				nextCard.css("background-image",playerHand[playerHand.length-1][3]);
+				$("#player").append(nextCard);
+				if (aceCheck(playerHand) > 21){
+					$("#player-status")[0].textContent+= "--BUSTED!";
+					$(".dealer1").css("background-image",dealerHand[0][3]);
+					$("#dealer-card").toggleClass("hidden");
+					$("#dealer-status")[0].textContent+="--Dealer reveals a "+dealerHand[0][1]+" of "+dealerHand[0][0]+".";
+					disableButtons();
+					moneyManage();
+					$(".bet").prop("disabled",false);
+					$(".deal").prop("disabled",false);
+				}
+				else if (aceCheck(playerHand) === 21){
+					$("#player-status")[0].textContent+="!";
+					disableButtons();
+					$(".stay").prop("disabled",false)
+					doDealerThings();
+				}
+			}});
+
 //Event for Stay button
 $(".stay").on("click",function(){
 	if (splitHand.length === 0){
