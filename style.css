@@ -73,6 +73,7 @@ text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 	border-style: solid;
 	border-color: black;
 	border-width: 1px;
+	background-size:cover;
 	background-color: white;
 	display: inline-block;
 	position:relative;
@@ -92,18 +93,6 @@ text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 	background-size:cover;
 	display: inline-block;
 	position:relative;
-}
-.player1{
-	background-size:cover;
-}
-.player2{
-	background-size:cover;
-}
-.dealer1{
-	background-size:cover;
-}
-.dealer2{
-	background-size:cover;
 }
 #new-card-player{
 	width: 156px;
@@ -135,6 +124,27 @@ font-size:45px;
 color:#FFF4F3;
 text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
+#player-split{
+margin-top:1em;
+margin-bottom:3em;
+width:800px;
+font-family: 'Raleway', sans-serif;
+font-size:45px;
+color:#FFF4F3;
+text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+#new-split-card{
+	width: 156px;
+	height:225px;
+	border-radius: 15px;
+	border-style: solid;
+	border-color: black;
+	border-width: 1px;
+	background-size:cover;
+	background-color: white;
+	display: inline-block;
+	position:relative;
+}
 #You{
 	background-color: rgba(202,2,2,.5);
 	border-style: solid;
@@ -148,6 +158,7 @@ text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 	border-style: solid;
 	border-color: black;
 	border-width: 1px;
+	background-size:cover;
 	background-color: white;
 	display: inline-block;
 	position:relative;

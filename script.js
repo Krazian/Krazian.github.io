@@ -1,4 +1,5 @@
 console.log("Doc ready");
+	$("#player-split").hide();
 	$(".player1").hide()
 	$(".player2").hide()
 	$(".dealer1").hide()
@@ -228,6 +229,7 @@ var doDealerThings = function(){
 /////////////////////////////////////   EVENT LISTENERS AND GAME LOGIC   ///////////////////////////////////
 //Event for Deal button
 $(".deal").on("click",function(){
+	$("#player-split").hide();
 	$(".player1").hide();
 	$(".player2").hide();
 	$(".dealer1").hide();
@@ -368,12 +370,20 @@ $(".double").on("click",function(){
 // });
 
 //Event for Split button
-// $(".split").on("click",function(){
-// 	if (playerHand.length === 2){
-// 		playerSplitHand[0]=playerHand[1];
-// 		playerHand.pop();
-// 	}
-// });
+$(".split").on("click",function(){
+	if (playerHand.length === 2&&playerHand[0][1]===playerHand[1][1]){
+		$("#player-split").show();
+		playerSplitHand[0]=playerHand[1];
+		playerSplitHand.push(getACard())
+		$(".player1split").css("background-image",playerSplitHand[0][3]);
+		$("#player-split").append($(".player1split"))
+		$(".player2split").css("background-image",playerSplitHand[1][3]);
+		$("#player-split").append($(".player2split"))
+		playerHand.pop();
+		playerHand.push(getACard());
+		$(".player2").css("background-image",playerHand[1][3])
+	}
+});
 
 $('#close').on('click',function(){
 	$('#modal').toggle();
