@@ -331,7 +331,7 @@ $(".stay").on("click",function(){
 
 //Event for Double Down button
 $(".double").on("click",function(){
-	if (playerHand.length === 2){
+	if (playerHand.length === 2&&bankroll>parseInt($(".bet")[0].value)){
 			$(".dealer1").css("background-image",dealerHand[0][3]);
 			$("#You")[0].textContent = "You - $"+(bankroll -= parseInt($(".bet")[0].value));
 			playerHand.push(getACard());
