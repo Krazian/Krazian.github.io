@@ -356,7 +356,7 @@ $(".hit").on("click",function(){
 		  } else if (aceCheck(splitHand) === 21){
 					$("#player-status")[0].textContent+="!";
 					$(".stay").prop("disabled",false)
-					splitDone = true}}
+					splitDone = true}
 		
 		//Normal gameplay code
 		} else{
@@ -417,13 +417,6 @@ $(".double").on("click",function(){
 		$(".split").prop("disabled",true)
 		$(".double").prop("disabled",true)}
 }});
-
-// //Event for Insurance Button
-// $('.insurance').on('click',function(){
-// 	$("#You")[0].textContent = "You - $"+(bankroll -= parseInt($(".bet")[0].value/2));
-// 	$(".insurance").prop("disabled",true);
-// 	insurance = true;
-// });
 
 //Event for Split button
 $(".split").on("click",function(){
