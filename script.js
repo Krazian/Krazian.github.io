@@ -201,13 +201,17 @@ var doDealerThings = function(){
 			if (aceCheck(dealerHand)>=17&&aceCheck(dealerHand)<=21){
 				winner();
 				moneyManage();
+				$(".bet").prop("disabled",false);
 				$(".deal").prop("disabled",false);
 				//Dealer busts over 21, evaluate
 				} else if (aceCheck(dealerHand)>21){
 					twoDisplay("--Dealer BUSTS!");
 					winner();
+					$(".bet").prop("disabled",false);
+					$(".deal").prop("disabled",false);
 				//If still under 16, draw again	
 				} else{
+					$(".bet").prop("disabled",false);
 					$(".deal").prop("disabled",false);}
 				}
 			//Repeat 'do' and if/else if while hand is less than 17
@@ -216,6 +220,7 @@ var doDealerThings = function(){
 		}else if (aceCheck(dealerHand)>16&&aceCheck(dealerHand)<=21){
 				winner();
 				moneyManage();
+				$(".bet").prop("disabled",false);
 				$(".deal").prop("disabled",false);
 			}			
 };
@@ -258,6 +263,7 @@ if((parseInt($(".bet")[0].value)<10)||($(".bet")[0].value.length===0)||(isNum()=
 			//Hide dealers hole card
 			$("#dealer-card").toggleClass("hidden")
 			$(".deal").prop("disabled",true);
+			$(".bet").prop("disabled",true);
 			dealCards();
 			enableButtons();
 			//Display starting hand
@@ -277,7 +283,8 @@ if((parseInt($(".bet")[0].value)<10)||($(".bet")[0].value.length===0)||(isNum()=
 				disableButtons();
 				moneyManage();
 				winner();
-				$(".deal").prop("disabled",false)
+				$(".bet").prop("disabled",false);
+				$(".deal").prop("disabled",false);
 				//Blackjack for dealer
 				} else if (aceCheck(dealerHand)===21){
 							twoDisplay("--Dealer reveals "+dealerHand[0][1]+" of "+dealerHand[0][0]+"."+" Blackjack!");
@@ -286,7 +293,8 @@ if((parseInt($(".bet")[0].value)<10)||($(".bet")[0].value.length===0)||(isNum()=
 							disableButtons();
 							moneyManage();
 							winner();
-							$(".deal").prop("disabled",false)
+							$(".bet").prop("disabled",false);
+							$(".deal").prop("disabled",false);
 					//Blackjack for player
 					} else if (aceCheck(playerHand)===21){
 							bankroll += (parseInt($(".bet")[0].value)/2)
@@ -296,7 +304,8 @@ if((parseInt($(".bet")[0].value)<10)||($(".bet")[0].value.length===0)||(isNum()=
 							disableButtons();
 							moneyManage();
 							winner();
-							$(".deal").prop("disabled",false)}
+							$(".bet").prop("disabled",false);
+							$(".deal").prop("disabled",false);}
 							});
 
 //Event for Hit button
@@ -314,7 +323,8 @@ $(".hit").on("click",function(){
 		$("#dealer-status")[0].textContent+="--Dealer reveals a "+dealerHand[0][1]+" of "+dealerHand[0][0]+".";
 		disableButtons();
 		moneyManage();
-		$(".deal").prop("disabled",false)
+		$(".bet").prop("disabled",false);
+		$(".deal").prop("disabled",false);
 	}
 	else if (aceCheck(playerHand) === 21){
 		$("#player-status")[0].textContent+="!";
