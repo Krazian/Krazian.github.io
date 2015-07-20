@@ -8,7 +8,8 @@ body{
 	background-image:url("http://www.muratkaya.com.tr/wp-content/uploads/2011/06/blackjackBanner.jpg");
 	width:678px;
 	height:160px;
-	margin: 10px 158px 0px 50px;
+	margin:auto;
+	margin-top: 10px;
 	border-radius:9px;
 	color:#000000;
 	text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
@@ -53,7 +54,7 @@ h2{
 }
 #dealer{
 	margin-top:1em;
-	width:800px;
+	width:100%;
 	font-family: 'Raleway', sans-serif;
 	font-size:45px;
 	color:#F00006;
@@ -97,7 +98,8 @@ h2{
 	position:relative;
 	display:inline-block;
 	height:225px;
-	width:300px;
+	width:450px;
+	margin-left: 75px;
 	background-color: rgba(255,255,255,.7);
 	font-size:15px;
 	color:black;
@@ -106,7 +108,7 @@ h2{
 #player{
 	margin-top:1em;
 	margin-bottom:3em;
-	width:800px;
+	width:100%;
 	font-family: 'Raleway', sans-serif;
 	font-size:45px;
 	color:#FFF4F3;
@@ -135,7 +137,8 @@ h2{
 	position:relative;
 	display:inline-block;
 	height:225px;
-	width:300px;
+	width:450px;
+	margin-left: 75px;
 	background-color: rgba(255,255,255,.7);
 	font-size:15px;
 	color:black;
@@ -156,7 +159,7 @@ h2{
 #player-split{
 	margin-top:1em;
 	margin-bottom:3em;
-	width:800px;
+	width:100%;
 	font-family: 'Raleway', sans-serif;
 	font-size:45px;
 	color:#FFF4F3;
@@ -177,7 +180,7 @@ h2{
 .options{
 	bottom:0;
 	margin-top:10px;
-	margin-left: 1.5em;
+	margin-left: 6em;
 	position:fixed;
 	text-align: left;
 }

@@ -391,7 +391,7 @@ $(".stay").on("click",function(){
 		doDealerThings();
 		} else if (splitHand.length !==0 && splitDone===false){
 				splitDone=true;
-				$("#player-status")[0].textContent+= "--Split total is now" + aceCheck(splitHand)+".";
+				$("#player-status")[0].textContent+= "--Split total is now " + aceCheck(splitHand)+".";
 				} else if (splitHand.length !==0 && splitDone===true){
 					$(".dealer1").css("background-image",dealerHand[0][3]);
 					doDealerThings();
