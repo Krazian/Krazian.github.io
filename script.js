@@ -132,42 +132,35 @@ var aceSearch = function(cards){
 //Change ace value from 11 to 1 if necessary
 var aceCheck = function(hand){
 	grandTotal = total(hand);
-	tensCounter = 0;
-	//If blackjack, just return #
-	for (var i = 0; i <hand.length;i++){
-		if (hand[0][2]===10){
-			tensCounter++;
-		}
+	switch (aceSearch(hand)){
+	case 1:
+		if (total(hand)>21){
+			return grandTotal -= 10;
+			}else{
+			return grandTotal;}
+		break;
+	case 2:
+		if (total(hand)>=32){
+			return grandTotal -= 20;
+			}else {
+			return grandTotal -= 10;}
+		break;
+	case 3:
+		if (total(Hand)>=42){
+			return grandTotal -= 30;
+			}else {
+			return grandTotal -= 20;}
+		break;
+	case 4:
+		if (total(hand)>=52){
+			return grandTotal -= 40;
+			}else {
+			return grandTotal -= 30;}
+		break;
+	case 0:
+		return grandTotal;
+		break;	
 	}
-if(total(hand)===21){
-return grandTotal
-	  //Min value of hand w/ ace is 12 (A A)
-} else if (total(hand)>=12){
-	 	//If NO aces, return value
-		if (aceSearch(hand)===0){
-		return grandTotal
-			//If 0 or 1 ace, return value
-		} else if (aceSearch(hand)<2&&grandTotal<21){
-			return grandTotal
-				//If 2 or more aces AND 1 or more 10 value cards,reduce by 10 per total aces.
-				} else if (aceSearch(hand)>=2&&tensCounter>0){
-					return grandTotal -=(10 * aceSearch(hand))
-				//If 1 or 2 aces, BUT total is more than 21, reduce by 10
-				} else if (aceSearch(hand)<=2&&grandTotal>21){  
-					return grandTotal -= 10 
-					//If 2 aces, BUT total is less than 21
-					} else if (aceSearch(hand)===2&&grandTotal<21){  
-						return grandTotal -= 10
-						//If 2 or more aces, BUT total is less than 21
-						} else if (aceSearch(hand)>=2&&grandTotal<21){  
-							return grandTotal -= (10 * (aceSearch(hand)-1))
-						//If more than 2 aces AND total over 21, reduce by 10 per one less total ace.
-						} else if (aceSearch(hand)>2&&grandTotal>21){
-							return grandTotal -= (10 * (aceSearch(hand)-1))
-							}
-		//All other hands less 12
-	} else{
-	return total(hand)}
 }
 //Check for amount, if unable to meet minimum bet, GAME OVER
 var moneyManage = function(){
@@ -251,68 +244,60 @@ if((parseInt($(".bet")[0].value)<10)||($(".bet")[0].value.length===0)||(isNum()=
 	$("#player-status")[0].textContent="You need to make a bet of at least $10"
 	} else if ((parseInt($(".bet")[0].value))>bankroll){ //Prevent over bet
 		$("#player-status")[0].textContent="You don't have that much in your bankroll"
-		} else{ //Run program as normal
-				//Simulate dealing cards
-				$(".player1").show();
-				$(".player2").show();
-				$(".dealer1").show();
-				$(".dealer2").show();
-				$("#dealer-status").show();
-				$("#player-status").show();
-				//Temporaryily remove bet from bank roll until hand is resolved
-				$("#You")[0].textContent = "You - $"+(bankroll -= parseInt($(".bet")[0].value));
-				//Hide dealers hole card
-				$("#dealer-card").toggleClass("hidden")
-				$(".deal").prop("disabled",true);
-				dealCards();
-				enableButtons();
-				//Display starting hand
-				$("#player-status")[0].textContent="You've got the "+playerHand[0][1]+" of "+playerHand[0][0]+" and the "+playerHand[1][1]+" of "+playerHand[1][0]+ " for a total of "+aceCheck(playerHand)+".";
-				$("#dealer-status")[0].textContent="Dealer is showing a "+dealerHand[1][1]+" of "+dealerHand[1][0]+".";
-				//Give cards images
-				$(".player1").css("background-image",playerHand[0][3]);
-				$(".player2").css("background-image",playerHand[1][3]);
-				$(".dealer2").css("background-image",dealerHand[1][3]);
-				//Allow insurance
-				/*if(dealerHand[1][1]==="Ace"){
-					$(".insurance").prop("disabled",false)
-					$('.insurance').on('click',function(){
-						$("#You")[0].textContent = "You - $"+(bankroll -= parseInt($(".bet")[0].value/2));
-						$(".insurance").prop("disabled",true);
-						insurance = true;
-						doDealerThings();
-					});
-				}*/
-				//Blackjack for both
-				if (aceCheck(playerHand)===21 && aceCheck(dealerHand)===21){
-					twoDisplay("--Dealer reveals "+dealerHand[0][1]+" of "+dealerHand[0][0]+"."+" Blackjack!");
-					$("#dealer-card").toggleClass("hidden");
-					$(".dealer1").css("background-image",dealerHand[0][3]);
-					disableButtons();
-					moneyManage();
-					winner();
-					$(".deal").prop("disabled",false)
-					//Blackjack for dealer
-					} else if (aceCheck(dealerHand)===21){
-								twoDisplay("--Dealer reveals "+dealerHand[0][1]+" of "+dealerHand[0][0]+"."+" Blackjack!");
-								$("#dealer-card").toggleClass("hidden");
-								$(".dealer1").css("background-image",dealerHand[0][3]);
-								disableButtons();
-								moneyManage();
-								winner();
-								$(".deal").prop("disabled",false)
-						//Blackjack for player
-						} else if (aceCheck(playerHand)===21){
-								bankroll += (parseInt($(".bet")[0].value)/2)
-								twoDisplay("--Blackjack!");
-								$("#dealer-card").toggleClass("hidden"); 
-								$(".dealer1").css("background-image",dealerHand[0][3]);
-								disableButtons();
-								moneyManage();
-								winner();
-						$(".deal").prop("disabled",false)}
-				
-}});
+		//Run program as normal
+		} else{ 
+			//Simulate dealing cards
+			$(".player1").show();
+			$(".player2").show();
+			$(".dealer1").show();
+			$(".dealer2").show();
+			$("#dealer-status").show();
+			$("#player-status").show();
+			//Temporaryily remove bet from bank roll until hand is resolved
+			$("#You")[0].textContent = "You - $"+(bankroll -= parseInt($(".bet")[0].value));
+			//Hide dealers hole card
+			$("#dealer-card").toggleClass("hidden")
+			$(".deal").prop("disabled",true);
+			dealCards();
+			enableButtons();
+			//Display starting hand
+			$("#player-status")[0].textContent="You've got the "+playerHand[0][1]+" of "+playerHand[0][0]+" and the "+playerHand[1][1]+" of "+playerHand[1][0]+ " for a total of "+aceCheck(playerHand)+".";
+			$("#dealer-status")[0].textContent="Dealer is showing a "+dealerHand[1][1]+" of "+dealerHand[1][0]+".";
+			//Give cards images
+			$(".player1").css("background-image",playerHand[0][3]);
+			$(".player2").css("background-image",playerHand[1][3]);
+			$(".dealer2").css("background-image",dealerHand[1][3]);}
+			//Allow insurance
+
+			//Blackjack for both
+			if (aceCheck(playerHand)===21 && aceCheck(dealerHand)===21){
+				twoDisplay("--Dealer reveals "+dealerHand[0][1]+" of "+dealerHand[0][0]+"."+" Blackjack!");
+				$("#dealer-card").toggleClass("hidden");
+				$(".dealer1").css("background-image",dealerHand[0][3]);
+				disableButtons();
+				moneyManage();
+				winner();
+				$(".deal").prop("disabled",false)
+				//Blackjack for dealer
+				} else if (aceCheck(dealerHand)===21){
+							twoDisplay("--Dealer reveals "+dealerHand[0][1]+" of "+dealerHand[0][0]+"."+" Blackjack!");
+							$("#dealer-card").toggleClass("hidden");
+							$(".dealer1").css("background-image",dealerHand[0][3]);
+							disableButtons();
+							moneyManage();
+							winner();
+							$(".deal").prop("disabled",false)
+					//Blackjack for player
+					} else if (aceCheck(playerHand)===21){
+							bankroll += (parseInt($(".bet")[0].value)/2)
+							twoDisplay("--Blackjack!");
+							$("#dealer-card").toggleClass("hidden"); 
+							$(".dealer1").css("background-image",dealerHand[0][3]);
+							disableButtons();
+							moneyManage();
+							winner();
+							$(".deal").prop("disabled",false)}
+							});
 
 //Event for Hit button
 $(".hit").on("click",function(){
@@ -384,7 +369,6 @@ $('#close').on('click',function(){
 	$('#modal').toggle();
 	enableButtons();
 });
-
 
 
 
