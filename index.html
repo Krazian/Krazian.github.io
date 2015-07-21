@@ -5,8 +5,8 @@
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css" rel="stylesheet" type="text/css"/>
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css" rel="stylesheet" type="text/css"/>
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.3.0/animate.min.css" rel="stylesheet" type="text/css"/>
-	<link href='https://fonts.googleapis.com/css?family=Raleway:800' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" type="text/css" href="style.css">
+	<link href='https://fonts.googleapis.com/css?family=Raleway:800' rel='stylesheet' type='text/css'/>
+	<link rel="stylesheet" type="text/css" href="style.css"/>
 	<title>Blackjack!</title>
 </head>
 
@@ -35,7 +35,7 @@
 				<div id="dealer-status" class="four columns animated fadeInRight"></div>
 					</div>
 
-<div id="player" class="row">
+	<div id="player" class="row">
 		<p id="You">You - $</p>
 		<div id="player-card" class="four columns player1 animated fadeInUp"></div>
 		<div id="player-card" class="four columns player2 animated fadeInUp"></div>
@@ -52,25 +52,21 @@
 		</div>
 
 		<div id="player-split" class="row">
-		<div id="new-split-card" class="four columns player1split animated fadeInUp"></div>
-		<div id="new-split-card" class="four columns player2split animated fadeInUp"></div>
+		<div class="player1split animated fadeInUp"></div>
+		<div class="player2split animated fadeInUp"></div>
 		<p id="You">Split</p>
 		</div>
-
-				<div class="options">
-					<p class="money">$</p>
-					<input type="text" placeholder="Place your bets!" class="bet"></input>
-					<button class="deal">DEAL</button>
-					<button class="hit">HIT</button>
-					<button class="stay">STAY</button>
-					<button class="split">SPLIT</button>
-					<button class="double">D.D.</button>
-			</div>
+		<div class="options">
+			<p class="money">$</p>
+			<input type="text" placeholder="Place your bets!" class="bet"></input>
+			<button class="deal">DEAL</button>
+			<button class="hit">HIT</button>
+			<button class="stay">STAY</button>
+			<button class="split">SPLIT</button>
+			<button class="double">D.D.</button>
 	</div>
-		</div>
-	</div>
+</div>
 </body>
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="script.js"></script>
 </html>

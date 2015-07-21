@@ -6,7 +6,8 @@ body{
 	background-image:url("http://www.muratkaya.com.tr/wp-content/uploads/2011/06/blackjackBanner.jpg");
 	width:678px;
 	height:160px;
-	margin: 0px 158px 0px 50px;
+	margin:auto;
+	margin-top: 10px;
 	border-radius:5px;
 	color:#000000;
 	text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
@@ -22,6 +23,7 @@ body{
 	background-color: rgba(120,120,120,.8);
 }
 .modal-content{
+	margin-top:15%;
 	text-align:center;
 }
 .modal-body{
@@ -124,21 +126,18 @@ text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 #player{
 margin-top:1em;
-margin-bottom:3em;
 width:800px;
 font-family: 'Raleway', sans-serif;
 font-size:45px;
 color:#FFF4F3;
 text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
-#player-split{
-margin-top:1em;
-margin-bottom:3em;
-width:800px;
-font-family: 'Raleway', sans-serif;
-font-size:45px;
-color:#FFF4F3;
-text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+
+#You{
+	background-color: rgba(202,2,2,.5);
+	border-style: solid;
+	border-color: black;
+	border-width: 1px;
 }
 #new-split-card{
 	width: 156px;
@@ -152,12 +151,40 @@ text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 	display: inline-block;
 	position:relative;
 }
-#You{
-	background-color: rgba(202,2,2,.5);
+#player-split{
+margin-top:1em;
+margin-bottom:3em;
+width:800px;
+font-family: 'Raleway', sans-serif;
+font-size:45px;
+color:#FFF4F3;
+text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+.player1split{
+	width: 156px;
+	height:225px;
+	margin-left:32px;
+	border-radius: 15px;
 	border-style: solid;
 	border-color: black;
 	border-width: 1px;
+	background-size: cover;
+	display: inline-block;
+	position:relative;
 }
+.player2split{
+	width: 156px;
+	height:225px;
+	margin-left:32px;
+	border-radius: 15px;
+	border-style: solid;
+	border-color: black;
+	border-width: 1px;
+	background-size: cover;
+	display: inline-block;
+	position:relative;
+}
+
 #player-card{
 	width: 156px;
 	height:225px;

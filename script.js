@@ -1,4 +1,6 @@
-console.log("Doc ready");
+
+$( document ).ready(function() {
+	console.log("Doc ready");
 ////////////////////////////////////        BOARD PRE-SETUP       //////////////////////////////////////////
 	$("#player-split").hide();
 	$(".player1").hide()
@@ -272,6 +274,7 @@ for (var i = 0; i <= 11; i++){
 	$("#new-card-dealer").remove();
 	$("#new-split-card").remove();
 	};
+	
 //Parameters for betting
 //Checks for letters in the input field
 var isNum = function(){
@@ -440,6 +443,7 @@ $(".split").on("click",function(){
 $('#close').on('click',function(){
 	$('#modal').toggle();
 	enableButtons();
+});
 });
 
 
