@@ -145,7 +145,6 @@ var disableButtons = function(){
 	$(".stay").prop("disabled",true);
 	$(".split").prop("disabled",true);
 	$(".double").prop("disabled",true);
-	$(".insurance").prop("disabled",true);
 };
 
 //Turns ON all buttons
@@ -168,6 +167,7 @@ var aceSearch = function(cards){
 var aceCheck = function(hand){
 	grandTotal = total(hand);
 	switch (aceSearch(hand)){
+	//Cases for # of aces and evaluates RAW value of hand
 	case 1:
 		if (total(hand)>21){
 			return grandTotal -= 10;
@@ -212,8 +212,12 @@ var moneyManage = function(){
 		$('#refresh').on('click',function(){
     location.reload(true);
 		});
+		//Game over screen with message, image, and button
 		$(".modal-content").addClass("game-over")
 		$(".modal-content")[0].textContent="You don't have enough money to play.. GAME OVER!";
+		var pic = $("<img>").attr("src","http://cdn2.hubspot.net/hub/378747/file-2184119855-png/broke-monopoly-guy.png");
+		pic.addClass("monopoly");
+		$("#modal").append(pic)
 	}
 }
 
@@ -351,6 +355,7 @@ $(".hit").on("click",function(){
 	if (splitHand.length !== 0&&splitDone===false){
 		splitHand.push(getACard());
 		newCard+=1;
+		//Status display
 		$("#player-status")[0].textContent+="--You drew the " +splitHand[splitHand.length-1][1]+" of "+splitHand[splitHand.length-1][0]+". You've got a "+aceCheck(splitHand)+".";
 		var nextCard = $("<div>").attr({"id":"new-split-card","class":"four columns animated fadeInUp"});
 		nextCard.css("background-image",splitHand[splitHand.length-1][3]);
@@ -389,12 +394,15 @@ $(".hit").on("click",function(){
 		}});
 //Event for Stay button
 $(".stay").on("click",function(){
+	//If there is no split, run as normal
 	if (splitHand.length === 0){
 		$(".dealer1").css("background-image",dealerHand[0][3]);
 		doDealerThings();
+		//If there is a split, and hand has not been concluded, stay button only applies to bottom hand
 		} else if (splitHand.length !==0 && splitDone===false){
 				splitDone=true;
-				$("#player-status")[0].textContent+= "--Split total is now" + aceCheck(splitHand)+".";
+				$("#player-status")[0].textContent+= "--Split total is now " + aceCheck(splitHand)+".";
+				//If there is a split, and hand HAS been concluded, stay button only applies to top hand
 				} else if (splitHand.length !==0 && splitDone===true){
 					$(".dealer1").css("background-image",dealerHand[0][3]);
 					doDealerThings();
@@ -402,6 +410,7 @@ $(".stay").on("click",function(){
 
 //Event for Double Down button
 $(".double").on("click",function(){
+	//If this is start of hand and play has enough funds to double bet
 	if (playerHand.length === 2&&bankroll>=parseInt($(".bet")[0].value)){
 			$(".dealer1").css("background-image",dealerHand[0][3]);
 			$("#You")[0].textContent = "You - $"+(bankroll -= parseInt($(".bet")[0].value));
@@ -412,10 +421,12 @@ $(".double").on("click",function(){
 			nextCard.css("background-image",playerHand[playerHand.length-1][3]);
 			$("#player").append(nextCard);
 			doDealerThings();
+			//Draws single card and then evaluates
 			if ((playerWin === true)&&(dealerWin ===false)){
 				$("#You")[0].textContent = "You - $"+(bankroll += 2*parseInt($(".bet")[0].value));
 			} else if ((playerWin === false)&&(dealerWin===false)){
 				$("#You")[0].textContent = "You - $"+(bankroll += parseInt($(".bet")[0].value))
+		//If player has already started hand by hitting, button is disabled
 	}else if (playerHand.length > 2){
 		$(".split").prop("disabled",true)
 		$(".double").prop("disabled",true)}
@@ -423,23 +434,53 @@ $(".double").on("click",function(){
 
 //Event for Split button
 $(".split").on("click",function(){
+	$(".split").prop("disabled",true);
 	//If both cards are the same and there are enough funds
-	if ((playerHand.length === 2&&playerHand[0][1]!==playerHand[1][1])&&(bankroll>=parseInt($(".bet")[0].value))){
+	if ((playerHand.length === 2&&playerHand[0][1]===playerHand[1][1])&&(bankroll>=parseInt($(".bet")[0].value))){
 		$("#You")[0].textContent = "You - $"+(bankroll -= parseInt($(".bet")[0].value))
 		splitDone = false;
 		$("#player-split").show();
+		//Moves value of right card to the first card in the new hand and gets second card
 		splitHand[0]=playerHand[1];
 		splitHand.push(getACard())
+		//Displays the splitting hand
 		$(".player1split").css("background-image",splitHand[0][3]);
 		$("#player-split").append($(".player1split"))
 		$(".player2split").css("background-image",splitHand[1][3]);
 		$("#player-split").append($(".player2split"))
+		//Grab new card for first hand
 		playerHand.pop();
 		playerHand.push(getACard());
 		$(".player2").css("background-image",playerHand[1][3])
 		$("#player-status")[0].textContent="You have the " +splitHand[0][1]+" of "+splitHand[0][0]+" and the "+splitHand[1][1]+" of "+splitHand[1][0]+" in one hand with a total of "+aceCheck(splitHand)+" and another hand with the " +playerHand[0][1]+" of "+playerHand[0][0]+" and the "+playerHand[1][1]+" of "+playerHand[1][0]+" for a total of "+aceCheck(playerHand)+".";
+			//Blackjack check for both hands
+			if (aceCheck(splitHand)===21&&aceCheck(playerHand)===21){
+				splitDone = true;
+				bankroll += (parseInt($(".bet")[0].value)/2)
+				twoDisplay("--21 on both hands! Blackjack!");
+				$("#dealer-card").toggleClass("hidden"); 
+				$(".dealer1").css("background-image",dealerHand[0][3]);
+				disableButtons();
+				$(".bet").prop("disabled",false);
+				$(".deal").prop("disabled",false);
+				//Blackjack check for bottom hand, if blackjack, buttons will only apply to top hand
+				} else if (aceCheck(splitHand)===21){
+						splitDone = true;
+						bankroll += (parseInt($(".bet")[0].value)/2)
+						twoDisplay("--21 on the split hand! Blackjack!");
+						//Blackjack check for top hand, if blackjack, buttons will only apply to bottom hand
+						}	else if (aceCheck(playerHand)===21){
+								bankroll += (parseInt($(".bet")[0].value)/2)
+								twoDisplay("--21 on the main hand! Blackjack!");
+								//Different even for event for Stay button
+								$(".stay").on("click",function(){
+										$(".dealer1").css("background-image",dealerHand[0][3]);
+										doDealerThings();
+										disableButtons();
+										});
+								}
 		}});
-
+//Reveals game from under the modal
 $('#close').on('click',function(){
 	$('#modal').toggle();
 	enableButtons();

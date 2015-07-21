@@ -1,5 +1,5 @@
 body{
-	background-image:url("http://www.threadsofgreenfabrics.com/shop/images/CR527.jpg");
+	background-image:url("http://www.solitaire-pyramid.com/solitaire/images/backgrounds/1920x1200/green_felt.jpg");
 	background-size: cover;
 }
 #bj-header{
@@ -63,7 +63,8 @@ h2{
 }
 #dealer{
 margin-top:1em;
-width:800px;
+margin-bottom:2em;
+width:100%;
 font-family: 'Raleway', sans-serif;
 font-size:45px;
 color:#F00006;
@@ -74,6 +75,7 @@ text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 	border-style: solid;
 	border-color: black;
 	border-width: 1px;
+	padding-left:10px;
 }
 #dealer-card{
 	width: 156px;
@@ -118,7 +120,7 @@ text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 	position:relative;
 	display:inline-block;
 	height:225px;
-	width:300px;
+	width:480px;
 	background-color: rgba(255,255,255,.7);
 	font-size:15px;
 	color:black;
@@ -126,7 +128,8 @@ text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 #player{
 margin-top:1em;
-width:800px;
+margin-bottom:2em;
+width:100%;
 font-family: 'Raleway', sans-serif;
 font-size:45px;
 color:#FFF4F3;
@@ -138,6 +141,7 @@ text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 	border-style: solid;
 	border-color: black;
 	border-width: 1px;
+	padding-left:10px;
 }
 #new-split-card{
 	width: 156px;
@@ -154,7 +158,7 @@ text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 #player-split{
 margin-top:1em;
 margin-bottom:3em;
-width:800px;
+width:100%;
 font-family: 'Raleway', sans-serif;
 font-size:45px;
 color:#FFF4F3;
@@ -163,7 +167,8 @@ text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 .player1split{
 	width: 156px;
 	height:225px;
-	margin-left:32px;
+	margin:auto;
+	margin-left:38px;
 	border-radius: 15px;
 	border-style: solid;
 	border-color: black;
@@ -175,7 +180,8 @@ text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 .player2split{
 	width: 156px;
 	height:225px;
-	margin-left:32px;
+	margin:auto;
+	margin-left:38px;
 	border-radius: 15px;
 	border-style: solid;
 	border-color: black;
@@ -201,7 +207,7 @@ text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 	position:relative;
 	display:inline-block;
 	height:225px;
-	width:300px;
+	width:480px;
 	background-color: rgba(255,255,255,.7);
 	font-size:15px;
 	color:black;
@@ -211,6 +217,7 @@ text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 .options{
 bottom:0;
 margin-top:10px;
+margin-left: 7%;
 position:fixed;
 text-align: left;
 }
@@ -238,7 +245,11 @@ button{
 	font-size:20px;
 	margin-top:12px;
 }
-
+.monopoly{
+	margin-top:15px;
+	position:relative;
+	left:39%;
+}
 
 /*HELPER STUFF*/
 .clearfix:after {
