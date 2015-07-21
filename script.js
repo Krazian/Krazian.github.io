@@ -435,6 +435,7 @@ $(".double").on("click",function(){
 //Event for Split button
 $(".split").on("click",function(){
 	$(".split").prop("disabled",true);
+	$(".double").prop("disabled",true);
 	//If both cards are the same and there are enough funds
 	if ((playerHand.length === 2&&playerHand[0][1]===playerHand[1][1])&&(bankroll>=parseInt($(".bet")[0].value))){
 		$("#You")[0].textContent = "You - $"+(bankroll -= parseInt($(".bet")[0].value))
@@ -456,7 +457,7 @@ $(".split").on("click",function(){
 			//Blackjack check for both hands
 			if (aceCheck(splitHand)===21&&aceCheck(playerHand)===21){
 				splitDone = true;
-				bankroll += (parseInt($(".bet")[0].value)/2)
+				bankroll += (parseInt($(".bet")[0].value)*4)
 				twoDisplay("--21 on both hands! Blackjack!");
 				$("#dealer-card").toggleClass("hidden"); 
 				$(".dealer1").css("background-image",dealerHand[0][3]);
